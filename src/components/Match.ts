@@ -1,8 +1,8 @@
 import { type Signal } from '../prop'
-import { type IDOMContext } from '../types/idom-context'
+import { type DOMContext } from '../dom-context'
 import { type AnyKey } from './OneOf'
 import { type JSX, makeRenderable } from '../jsx-runtime'
-import { type Clear } from '../types/clean'
+import { type Clear } from '../clean'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class MatchImpl<T extends { [_ in K]: any }, K extends keyof T> {
@@ -16,7 +16,7 @@ export class MatchImpl<T extends { [_ in K]: any }, K extends keyof T> {
     }
   ) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     let newCtx = ctx.makeReference()
     const value = this.on.get()
     let key = value[this.using]

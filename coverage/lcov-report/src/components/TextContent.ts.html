@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.7% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>12/31</span>
+                <span class='fraction'>2/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>0/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">38.7% </span>
+                <span class="strong">14.28% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>12/31</span>
+                <span class='fraction'>2/14</span>
             </div>
         
             
@@ -94,68 +94,68 @@
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
-<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L32'></a><a href='#L32'>32</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type Signal } from '../prop'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
 &nbsp;
-export class TextContentImpl implements Renderable <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  constructor (private readonly html: Signal&lt;string&gt; | Signal&lt;string | undefined&gt;) { }</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  readonly appendTo = (ctx: IDOMContext): Clear =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const el = ctx.getElement()</span>
-<span class="cstat-no" title="statement not covered" >    const previous = el.textContent</span>
+export class TextContentImpl implements Renderable {
+<span class="fstat-no" title="function not covered" >  constructor (private readonly <span class="cstat-no" title="statement not covered" >h</span>tml: Signal&lt;string&gt; | Signal&lt;string | undefined&gt;)</span> { }
+&nbsp;
+  readonly appendTo = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>tx: DOMContext): Clear =&gt; {</span>
+    const el = <span class="cstat-no" title="statement not covered" >ctx.getElement()</span>
+    const previous = <span class="cstat-no" title="statement not covered" >el.textContent</span>
 <span class="cstat-no" title="statement not covered" >    el.textContent = this.html.get() ?? ''</span>
-<span class="cstat-no" title="statement not covered" >    const cancel = this.html.subscribe(value =&gt; {</span>
+    const cancel = <span class="cstat-no" title="statement not covered" >this.html.subscribe(<span class="fstat-no" title="function not covered" >value </span>=&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      el.textContent = value ?? ''</span>
-<span class="cstat-no" title="statement not covered" >    })</span>
-<span class="cstat-no" title="statement not covered" >    return (removeTree: boolean) =&gt; {</span>
+    })
+<span class="cstat-no" title="statement not covered" >    return <span class="fstat-no" title="function not covered" >(r</span>emoveTree: boolean) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >      cancel()</span>
-<span class="cstat-no" title="statement not covered" >      if (removeTree) {</span>
+<span class="cstat-no" title="statement not covered" >      <span class="missing-if-branch" title="if path not taken" >I</span>if (removeTree) {</span>
 <span class="cstat-no" title="statement not covered" >        el.textContent = previous</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >}</span></span>
+      }
+    }
+  }
+}
 &nbsp;
 export interface TextContentProps {
   html: Signal&lt;string&gt; | Signal&lt;string | undefined&gt;
 }
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function TextContent ({ html }: TextContentProps): TextContentImpl {</span>
+export function <span class="fstat-no" title="function not covered" >TextContent </span>({ html }: TextContentProps): TextContentImpl {
 <span class="cstat-no" title="statement not covered" >  return new TextContentImpl(html)</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >}</span></span>
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -163,7 +163,7 @@ export <span class="fstat-no" title="function not covered" >function TextContent
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-04T02:09:47.970Z
+                at 2023-04-06T01:13:55.462Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

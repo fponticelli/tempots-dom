@@ -1,4 +1,3 @@
-import { describe, expect, test } from 'vitest'
 import { Prop } from '../src/prop'
 
 describe('Prop', () => {

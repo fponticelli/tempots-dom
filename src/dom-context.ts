@@ -1,5 +1,4 @@
-import { type IDOMContext, type ProviderMark } from './types/idom-context'
-import { type Clear } from './types/clean'
+import { type Clear } from './clean'
 
 function extractClassNames (cls: string): string[] {
   return (cls ?? '').replace(/\s+/g, ' ').split(' ').filter((className) => className.length > 0)
@@ -11,14 +10,19 @@ function createIntegerSet (x: number): Set<number> {
   for (let i = 0; i < x; i++) {
     integerSet.add(i)
   }
-
   return integerSet
+}
+
+export type ProviderMark<T> = symbol
+
+export function makeProviderMark<T> (): ProviderMark<T> {
+  return Symbol('providerMark')
 }
 
 export type Providers = Record<ProviderMark<unknown>, unknown>
 
-export class DOMContext implements IDOMContext {
-  static of (element: HTMLElement): IDOMContext {
+export class DOMContext {
+  static of (element: HTMLElement): DOMContext {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return new DOMContext(element.ownerDocument, element, undefined, undefined, {})
   }
@@ -47,13 +51,13 @@ export class DOMContext implements IDOMContext {
     return this.document
   }
 
-  makeReference (): IDOMContext {
+  makeReference (): DOMContext {
     const textNode = this.document.createTextNode('')
     this.append(textNode)
     return new DOMContext(this.document, this.element, textNode, this.ns, this.providers)
   }
 
-  makeElement (tagName: string): IDOMContext {
+  makeElement (tagName: string): DOMContext {
     if (this.ns !== undefined || tagName === 'svg') {
       const ns = this.ns ?? 'http://www.w3.org/2000/svg'
       const element = this.document.createElementNS(ns, tagName)
@@ -240,7 +244,7 @@ export class DOMContext implements IDOMContext {
     }
   }
 
-  withProvider<T>(mark: ProviderMark<T>, provider: T): IDOMContext {
+  withProvider<T>(mark: ProviderMark<T>, provider: T): DOMContext {
     return new DOMContext(this.document, this.element, this.reference, this.ns, {
       ...this.providers,
       [mark]: provider

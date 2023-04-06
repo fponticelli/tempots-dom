@@ -1,10 +1,10 @@
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
 
 export class LifecycleImpl implements Renderable {
   constructor (private readonly onMount: (el: HTMLElement) => void, private readonly onUnmount: (el: HTMLElement) => void) { }
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     this.onMount(ctx.getElement())
 
     return () => {

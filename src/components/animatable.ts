@@ -1,8 +1,3 @@
-/** @jsxImportSource .. */
-import { type Renderable } from '../types/renderable'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-
 export interface Animatable {
   width?: number
   maxWidth?: number
@@ -56,22 +51,7 @@ export interface Animatable {
   blur?: number
 }
 
-export interface TweenAnimation {
-  style: Animatable
-  duration?: number
-  delay?: number
-  // easing?: string
-  // repeat?: number | boolean
-  // yoyo?: boolean
-}
-
-export interface TweenProps {
-  enter?: TweenAnimation[]
-  exit?: TweenAnimation[]
-  style?: Animatable
-}
-
-export function getComputedStyleValue (styles: CSSStyleDeclaration, key: keyof Animatable): Animatable[typeof key] {
+export function getComputedAnimatableProp (styles: CSSStyleDeclaration, key: keyof Animatable): Animatable[typeof key] {
   if (key === 'translateX') {
     return new WebKitCSSMatrix(styles.transform).m41
   } else if (key === 'translateY') {
@@ -114,19 +94,19 @@ export function getComputedStyleValue (styles: CSSStyleDeclaration, key: keyof A
   return Number(styles.getPropertyValue(key))
 }
 
-export function getCurrentStyleValues (el: HTMLElement, styles: Animatable): Animatable {
+export function getComputedAnimatable (el: HTMLElement, styles: Animatable): Animatable {
   const result: Animatable = {}
   const computedStyles = getComputedStyle(el)
   for (const [key, value] of Object.entries(styles)) {
     const k = key as keyof Animatable
     if (value != null) {
-      result[k] = getComputedStyleValue(computedStyles, k)
+      result[k] = getComputedAnimatableProp(computedStyles, k)
     }
   }
   return result
 }
 
-export function applyStyle (el: HTMLElement, key: keyof Animatable, value: Animatable[typeof key]): void {
+export function applyAnimatableProp (el: HTMLElement, key: keyof Animatable, value: Animatable[typeof key]): void {
   if (value == null) return
 
   if (key === 'translateX') {
@@ -171,116 +151,28 @@ export function applyStyle (el: HTMLElement, key: keyof Animatable, value: Anima
   el.style.setProperty(key, String(value))
 }
 
-export function applyInterpolatedStyle (el: HTMLElement, key: keyof Animatable, from: Animatable[typeof key], to: Animatable[typeof key], progress: number): void {
+export function applyInterpolatedAnimatableProp (el: HTMLElement, key: keyof Animatable, from: Animatable[typeof key], to: Animatable[typeof key], progress: number): void {
   if (from != null && to != null) {
     const value = from + (to - from) * progress
-    applyStyle(el, key, value)
+    applyAnimatableProp(el, key, value)
   }
 }
 
-export function applyInterpolatedStyles (el: HTMLElement, from: Animatable, to: Animatable, progress: number): void {
+export function applyInterpolatedAnimatable (el: HTMLElement, from: Animatable, to: Animatable, progress: number): void {
   el.style.transform = ''
   el.style.filter = ''
   for (const [key, value] of Object.entries(to)) {
     const k = key as keyof Animatable
-    applyInterpolatedStyle(el, k, from[k], value, progress)
+    applyInterpolatedAnimatableProp(el, k, from[k], value, progress)
   }
 }
 
-export function applyStyles (el: HTMLElement, styles: Animatable): void {
+export function applyAnimatable (el: HTMLElement, styles: Animatable): void {
   el.style.transform = ''
   el.style.filter = ''
   for (const [key, value] of Object.entries(styles)) {
     if (value != null) {
-      applyStyle(el, key as keyof Animatable, value)
+      applyAnimatableProp(el, key as keyof Animatable, value)
     }
   }
-}
-
-export class TweenImpl implements Renderable {
-  constructor (
-    private readonly enter: TweenAnimation[] = [],
-    private readonly exit: TweenAnimation[] = [],
-    private readonly style?: Animatable
-  ) { }
-
-  appendTo (ctx: IDOMContext): Clear {
-    const element = ctx.getElement()
-    let currentAnimation = 0
-    let startTime = 0
-    let animation: TweenAnimation | null = null
-    let from: Animatable | null = null
-    let willClear: (() => void) | null = null
-    // let unmounted = false
-    let animations = this.enter
-    const { exit, style } = this
-
-    function frame (): void {
-      // if (unmounted) return
-      if (animation == null || from == null) return
-      const now = Date.now()
-      const elapsed = now - startTime
-      const { duration = 250, delay = 0 } = animation
-      if (elapsed < delay) return
-      const progress = Math.min(1, (elapsed - delay) / duration)
-
-      applyInterpolatedStyles(element, from, animation.style, progress)
-
-      // console.log(
-      //   element.style.opacity,
-      //   // getComputedStyleValue(getComputedStyle(element), 'translateY')
-      // )
-
-      if (progress >= 1) {
-        if (exit === animations) {
-          console.log('exit')
-          willClear?.()
-        } else {
-          console.log('play next')
-          playNextAnimation()
-        }
-      } else {
-        requestAnimationFrame(frame)
-      }
-    }
-
-    function playNextAnimation (): void {
-      if (currentAnimation >= animations.length) return
-      startTime = Date.now()
-      animation = animations[currentAnimation]
-      if (currentAnimation === 0 && style != null && animations !== exit) {
-        applyStyles(element, style)
-        from = style
-        console.log('playNextAnimation from style', currentAnimation, from, animation.style)
-      } else {
-        from = getCurrentStyleValues(element, animation.style)
-        console.log('playNextAnimation from empty', currentAnimation, from, animation.style)
-      }
-
-      requestAnimationFrame(frame)
-      currentAnimation++
-    }
-
-    playNextAnimation()
-
-    return (clearTree: boolean) => {
-      console.log('onUnmount')
-      animations = exit
-      // unmounted = true
-      currentAnimation = 0
-      ctx.delayClear(clearTree, (clear) => {
-        console.log('perform clear')
-        willClear = () => {
-          console.log('finalize clear')
-          animations = []
-          clear()
-        }
-        playNextAnimation()
-      })
-    }
-  }
-}
-
-export function Tween ({ enter, exit, style }: TweenProps): TweenImpl {
-  return new TweenImpl(enter, exit, style)
 }

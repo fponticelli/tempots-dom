@@ -1,9 +1,9 @@
 /** @jsxImportSource .. */
 import { type Signal } from '../prop'
-import { type Renderable } from '../types/renderable'
+import { type Renderable } from '../renderable'
 import { type JSX } from '../jsx'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
 import { If } from './If'
 import { makeRenderable } from '../jsx-runtime'
 
@@ -16,7 +16,7 @@ export type Condition<T> =
 export class ShowImpl<T> implements Renderable {
   constructor (private readonly on: Condition<T>, private readonly otherwise: JSX.DOMNode, private readonly children: (value: Signal<NonNullable<T>>) => JSX.DOMNode) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const condition = this.on.map(v => v != null)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const el = makeRenderable(<If is={condition} then={this.children(this.on as any)} otherwise={this.otherwise} />)

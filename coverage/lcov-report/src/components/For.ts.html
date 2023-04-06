@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.09% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>13/22</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
@@ -39,14 +39,14 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">59.09% </span>
+                <span class="strong">55.55% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>13/22</span>
+                <span class='fraction'>5/9</span>
             </div>
         
             
@@ -85,28 +85,28 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type Signal } from '../prop'
 import { RepeatImpl } from './Repeat'
 import { type JSX, makeRenderable } from '../jsx-runtime'
@@ -119,16 +119,16 @@ export interface ForProps&lt;T&gt; {
 }
 &nbsp;
 // &lt;For of={values}&gt;{(value) =&gt; &lt;span&gt;{value}&lt;/span&gt;}&lt;/For&gt;
-export <span class="fstat-no" title="function not covered" >function For&lt;T&gt; ({ of, children: render }: ForProps&lt;T&gt;): JSX.DOMNode {</span>
-<span class="cstat-no" title="statement not covered" >  const times = of.map(v =&gt; v.length)</span>
-<span class="cstat-no" title="statement not covered" >  return new RepeatImpl(times, (index: number) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const value = of.at(index)</span>
+export function <span class="fstat-no" title="function not covered" >For&lt;</span>T&gt; ({ of, children: render }: ForProps&lt;T&gt;): JSX.DOMNode {
+  const times = <span class="cstat-no" title="statement not covered" >of.map(<span class="fstat-no" title="function not covered" >v </span>=&gt; <span class="cstat-no" title="statement not covered" >v.length)</span></span>
+<span class="cstat-no" title="statement not covered" >  return new RepeatImpl(times, <span class="fstat-no" title="function not covered" >(i</span>ndex: number) =&gt; {</span>
+    const value = <span class="cstat-no" title="statement not covered" >of.at(index)</span>
 <span class="cstat-no" title="statement not covered" >    return new FragmentImpl([</span>
-<span class="cstat-no" title="statement not covered" >      makeRenderable(render?.(value, index)),</span>
-<span class="cstat-no" title="statement not covered" >      new OnRemoveImpl(value.clean)</span>
-<span class="cstat-no" title="statement not covered" >    ])</span>
-<span class="cstat-no" title="statement not covered" >  })</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >}</span></span>
+      makeRenderable(render?.(value, index)),
+      new OnRemoveImpl(value.clean)
+    ])
+  })
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -136,7 +136,7 @@ export <span class="fstat-no" title="function not covered" >function For&lt;T&gt
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-04T02:09:47.970Z
+                at 2023-04-06T01:13:46.356Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

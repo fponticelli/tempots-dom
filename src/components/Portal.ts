@@ -1,7 +1,7 @@
 import { render } from '../render'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
 import { type JSX } from '../jsx'
 import { makeRenderable } from '../jsx-runtime'
 
@@ -11,7 +11,7 @@ export class PortalImpl implements Renderable {
     private readonly children: JSX.DOMNode
   ) { }
 
-  appendTo (ctx: IDOMContext): Clear {
+  appendTo (ctx: DOMContext): Clear {
     const element = ctx.getDocument().querySelector(this.selector)
     if (element === null) {
       throw new Error(`Cannot find element by selector: ${this.selector}`)

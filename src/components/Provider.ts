@@ -1,13 +1,13 @@
-import { type Clear } from '../types/clean'
-import { type IDOMContext, type ProviderMark } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext, type ProviderMark } from '../dom-context'
+import { type Renderable } from '../renderable'
 import { type JSX } from '../jsx'
 import { makeRenderable } from '../jsx-runtime'
 
 export class ProviderImpl<T> implements Renderable {
   constructor (private readonly mark: ProviderMark<T>, private readonly provider: T, private readonly children: JSX.DOMNode) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const newCtx = ctx.withProvider(this.mark, this.provider)
     const clear = makeRenderable(this.children).appendTo(newCtx)
     return (removeTree: boolean) => {
@@ -31,7 +31,7 @@ export function Provider<T> ({ mark, value, children }: ProviderProps<T>): JSX.D
 export class ConsumerImpl<T> implements Renderable {
   constructor (private readonly mark: ProviderMark<T>, private readonly children: (provider: T) => JSX.DOMNode) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const provider: T = ctx.getProvider(this.mark)
     if (provider == null) {
       throw new Error('No provider found for mark')

@@ -1,12 +1,12 @@
-import { type IDOMContext } from '../types/idom-context'
-import { type Clear } from '../types/clean'
-import { type Renderable } from '../types/renderable'
+import { type DOMContext } from '../dom-context'
+import { type Clear } from '../clean'
+import { type Renderable } from '../renderable'
 import { type JSX } from '../jsx'
 import { makeRenderables } from '../jsx-runtime'
 
 export class ElImpl implements Renderable {
   constructor (private readonly tagName: string, private readonly children: Renderable[]) { }
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const newCtx = ctx.makeElement(this.tagName)
     const clears = this.children.map(child => child.appendTo(newCtx))
     return (removeTree: boolean) => {

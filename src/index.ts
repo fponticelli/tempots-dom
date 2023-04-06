@@ -1,18 +1,20 @@
-import { type Clear, type Clean } from './types/clean'
-import { DOMContext } from './dom-context'
-import { makeProviderMark, type IDOMContext, type ProviderMark } from './types/idom-context'
+import { type Clear, type Clean } from './clean'
+import { makeProviderMark, DOMContext, type ProviderMark } from './dom-context'
 import { Prop, Signal } from './prop'
 import { render } from './render'
-import { type Renderable } from './types/renderable'
+import { type Renderable } from './renderable'
 import { isEmptyElement } from './helpers/is-empty-element'
 import { handleTextInput } from './helpers/handle-text-input'
 import { handleAnchorClick } from './helpers/handle-anchor-click'
+import { Animatable, applyInterpolatedAnimatableProp, applyInterpolatedAnimatable, applyAnimatableProp, applyAnimatable, getComputedAnimatableProp, getComputedAnimatable } from './components/animatable'
 
 import { AttributeImpl, Attribute, type AttributeProps } from './components/Attribute'
 import { BooleanAttributeImpl, BooleanAttribute, type BooleanAttributeProps } from './components/BooleanAttribute'
 import { ClassNameImpl, ClassName, type ClassNameProps } from './components/ClassName'
 import { ConsumerImpl, Consumer, type ConsumerProps, ProviderImpl, Provider, type ProviderProps } from './components/Provider'
 import { ElImpl, El, type ElProps } from './components/El'
+import { FadeIn, FadeInImpl, FadeInProps } from './components/FadeIn'
+import { FadeOut, FadeOutImpl, FadeOutProps } from './components/FadeOut'
 import { For, type ForProps } from './components/For'
 import { FragmentImpl, Fragment } from './components/Fragment'
 import { HiddenWhenEmptyImpl, HiddenWhenEmpty } from './components/HiddenWhenEmpty'
@@ -30,17 +32,20 @@ import { RepeatImpl, Repeat, type RepeatProps } from './components/Repeat'
 import { ShowImpl, Show, type ShowProps } from './components/Show'
 import { TextImpl, Text, type TextProps } from './components/Text'
 import { TextContentImpl, TextContent, type TextContentProps } from './components/TextContent'
-import { Tween, TweenImpl, type Animatable, type TweenAnimation, type TweenProps } from './components/Tween'
 
 import type { JSX } from './jsx-runtime'
 
 export {
+  applyInterpolatedAnimatableProp, applyInterpolatedAnimatable, applyAnimatableProp, applyAnimatable, getComputedAnimatableProp, getComputedAnimatable,
+
   AttributeImpl, Attribute,
   BooleanAttributeImpl, BooleanAttribute,
   ClassNameImpl, ClassName,
   ConsumerImpl, Consumer,
   DOMContext,
   ElImpl, El,
+  FadeIn, FadeInImpl,
+  FadeOut, FadeOutImpl,
   For,
   FragmentImpl, Fragment,
   handleTextInput,
@@ -66,7 +71,6 @@ export {
   Signal,
   TextImpl, Text,
   TextContentImpl, TextContent,
-  TweenImpl, Tween,
   When
 }
 
@@ -78,8 +82,9 @@ export type {
   Clear,
   ConsumerProps,
   ElProps,
+  FadeInProps,
+  FadeOutProps,
   ForProps,
-  IDOMContext,
   InnerHTMLProps,
   IfProps,
   JSX,
@@ -98,8 +103,6 @@ export type {
   ShowProps,
   TextProps,
   TextContentProps,
-  TweenAnimation,
-  TweenProps,
   Animatable,
   WhenProps
 }

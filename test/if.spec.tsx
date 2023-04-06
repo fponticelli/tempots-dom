@@ -1,8 +1,6 @@
 /**
- * @vitest-environment happy-dom
+ * @jsxImportSource ../src
  */
-
-import { describe, expect, test, afterEach } from 'vitest'
 
 import { render, If, Prop } from '../src'
 
@@ -14,11 +12,11 @@ describe('If', () => {
 
   test('when true/false', () => {
     const prop = Prop.of(true)
-    const view = <If is={prop} then={<div>foo</div>} otherwise={<div>bar</div>} />
+    const view = <If is={prop} then={<div>foo</div>} otherwise={<span>bar</span>} />
     render(view, document.body)
     expect(document.body.innerHTML).toBe('<div>foo</div>')
     prop.set(false)
-    expect(document.body.innerHTML).toBe('<div>bar</div>')
+    expect(document.body.innerHTML).toBe('<span>bar</span>')
   })
 
   test('without false', () => {

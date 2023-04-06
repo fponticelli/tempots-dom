@@ -1,5 +1,5 @@
 import { type JSX } from './jsx'
-import { type Renderable } from './types/renderable'
+import { type Renderable } from './renderable'
 import { ElImpl } from './components/El'
 import { AttributeImpl } from './components/Attribute'
 import { BooleanAttributeImpl } from './components/BooleanAttribute'

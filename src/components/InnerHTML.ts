@@ -1,12 +1,12 @@
 import { type Signal } from '../prop'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
 
 export class InnerHTMLImpl implements Renderable {
   constructor (private readonly html: Signal<string> | Signal<string | undefined>) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const el = ctx.getElement()
     const previous = el.innerHTML
     el.innerHTML = this.html.get() ?? ''

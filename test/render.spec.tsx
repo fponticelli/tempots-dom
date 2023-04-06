@@ -1,8 +1,6 @@
 /**
- * @vitest-environment happy-dom
+ * @jsxImportSource ../src
  */
-
-import { describe, expect, test, afterEach } from 'vitest'
 
 import { render } from '../src'
 

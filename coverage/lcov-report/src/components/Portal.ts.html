@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>18/30</span>
+                <span class='fraction'>4/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/1</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60% </span>
+                <span class="strong">36.36% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>18/30</span>
+                <span class='fraction'>4/11</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -93,66 +93,66 @@
 <a name='L28'></a><a href='#L28'>28</a>
 <a name='L29'></a><a href='#L29'>29</a>
 <a name='L30'></a><a href='#L30'>30</a>
-<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L31'></a><a href='#L31'>31</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { render } from '../render'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
 import { type JSX } from '../jsx'
 import { makeRenderable } from '../jsx-runtime'
 &nbsp;
 export class PortalImpl implements Renderable {
 <span class="fstat-no" title="function not covered" >  constructor (</span>
-<span class="cstat-no" title="statement not covered" >    private readonly selector: string,</span>
-<span class="cstat-no" title="statement not covered" >    private readonly children: JSX.DOMNode</span>
-<span class="cstat-no" title="statement not covered" >  ) { }</span>
+    private readonly <span class="cstat-no" title="statement not covered" >selector: string,</span>
+    private readonly <span class="cstat-no" title="statement not covered" >children: JSX.DOMNode</span>
+  ) { }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  appendTo (ctx: IDOMContext): Clear {</span>
-<span class="cstat-no" title="statement not covered" >    const element = ctx.getDocument().querySelector(this.selector)</span>
-<span class="cstat-no" title="statement not covered" >    if (element === null) {</span>
+<span class="fstat-no" title="function not covered" >  appendTo </span>(ctx: DOMContext): Clear {
+    const element = <span class="cstat-no" title="statement not covered" >ctx.getDocument().querySelector(this.selector)</span>
+<span class="cstat-no" title="statement not covered" >    <span class="missing-if-branch" title="if path not taken" >I</span>if (element === null) {</span>
 <span class="cstat-no" title="statement not covered" >      throw new Error(`Cannot find element by selector: ${this.selector}`)</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    }
 <span class="cstat-no" title="statement not covered" >    return render(makeRenderable(this.children), element as HTMLElement)</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >}</span></span>
+  }
+}
 &nbsp;
 export interface PortalProps {
   selector: string
   children?: JSX.DOMNode
 }
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function Portal (props: PortalProps): JSX.DOMNode {</span>
+export function <span class="fstat-no" title="function not covered" >Portal </span>(props: PortalProps): JSX.DOMNode {
 <span class="cstat-no" title="statement not covered" >  return new PortalImpl(props.selector, props.children)</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >}</span></span>
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -160,7 +160,7 @@ export <span class="fstat-no" title="function not covered" >function Portal (pro
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-04T02:09:47.970Z
+                at 2023-04-06T01:13:55.462Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

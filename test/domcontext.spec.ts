@@ -1,6 +1,3 @@
-// @vitest-environment happy-dom
-
-import { describe, beforeEach, expect, test } from 'vitest'
 import { DOMContext } from '../src/dom-context'
 
 describe('DOMContext', () => {

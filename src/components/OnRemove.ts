@@ -1,5 +1,5 @@
-import { type Clear } from '../types/clean'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type Renderable } from '../renderable'
 
 export class OnRemoveImpl implements Renderable {
   constructor (private readonly clear: Clear) { }

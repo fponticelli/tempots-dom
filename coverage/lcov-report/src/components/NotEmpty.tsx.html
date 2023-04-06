@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/33</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/4</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">45.45% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/33</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
@@ -96,39 +96,39 @@
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
 <a name='L33'></a><a href='#L33'>33</a>
-<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/** @jsxImportSource .. */
 import { type Signal } from '../prop'
 import { If } from './If'
@@ -141,27 +141,27 @@ export interface NotEmptyProps&lt;T&gt; {
   display: JSX.DOMNode
 }
 &nbsp;
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >function isEmpty (obj: Record&lt;AnyKey, unknown&gt;): boolean {</span></span>
+function <span class="fstat-no" title="function not covered" >isEmpty </span>(obj: Record&lt;AnyKey, unknown&gt;): boolean {
 <span class="cstat-no" title="statement not covered" >  return Object.keys(obj).length === 0</span>
-<span class="cstat-no" title="statement not covered" >}</span>
+}
 &nbsp;
 // &lt;NotEmpty on={maybevalue} whenEmpty={&lt;span&gt;nothing to show&lt;/span&gt;}}&gt;{value =&gt; value.toText()}&lt;/NotEmpty&gt;
-export <span class="fstat-no" title="function not covered" >function NotEmpty&lt;T extends unknown[] | Record&lt;AnyKey, unknown&gt;&gt; ({</span>
-<span class="cstat-no" title="statement not covered" >  on,</span>
-<span class="cstat-no" title="statement not covered" >  display,</span>
-<span class="cstat-no" title="statement not covered" >  whenEmpty</span>
-<span class="cstat-no" title="statement not covered" >}: NotEmptyProps&lt;T&gt;): JSX.DOMNode {</span>
+export function <span class="fstat-no" title="function not covered" >NotEmpty&lt;</span>T extends unknown[] | Record&lt;AnyKey, unknown&gt;&gt; ({
+  on,
+  display,
+  whenEmpty
+}: NotEmptyProps&lt;T&gt;): JSX.DOMNode {
 <span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;If</span>
-<span class="cstat-no" title="statement not covered" >      is={on.map((v: T) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >        // eslint-disable-next-line @typescript-eslint/no-explicit-any</span>
+    &lt;If
+      is={on.map(<span class="fstat-no" title="function not covered" >(v</span>: T) =&gt;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
 <span class="cstat-no" title="statement not covered" >        Array.isArray(v) ? v.length &gt; 0 : v != null &amp;&amp; !isEmpty(v as any)</span>
-<span class="cstat-no" title="statement not covered" >      )}</span>
-<span class="cstat-no" title="statement not covered" >      then={display}</span>
-<span class="cstat-no" title="statement not covered" >      otherwise={whenEmpty}</span>
-<span class="cstat-no" title="statement not covered" >    /&gt;</span>
-<span class="cstat-no" title="statement not covered" >  )</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >}</span></span>
+      )}
+      then={display}
+      otherwise={whenEmpty}
+    /&gt;
+  )
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -169,7 +169,7 @@ export <span class="fstat-no" title="function not covered" >function NotEmpty&lt
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-04T02:09:47.970Z
+                at 2023-04-06T01:13:46.356Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

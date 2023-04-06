@@ -1,5 +1,5 @@
 import { type Signal } from './prop'
-import { type Renderable } from './types/renderable'
+import { type Renderable } from './renderable'
 
 // eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace JSX {

@@ -1,7 +1,7 @@
 import { Signal } from '../prop'
-import { type Renderable } from '../types/renderable'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
+import { type Renderable } from '../renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
 
 export function subscribeToSignal<T> (
   prop: Signal<T>,
@@ -18,7 +18,7 @@ export function subscribeToSignal<T> (
 export class TextImpl implements Renderable {
   constructor (private readonly text: Signal<string>) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const [set, clear] = ctx.createText(this.text.get())
     return subscribeToSignal(this.text, set, clear)
   }

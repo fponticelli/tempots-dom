@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.94% </span>
+                <span class="strong">63.63% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>15/19</span>
+                <span class='fraction'>7/11</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>4/4</span>
+                <span class='fraction'>0/0</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">78.94% </span>
+                <span class="strong">77.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/19</span>
+                <span class='fraction'>7/9</span>
             </div>
         
             
@@ -82,44 +82,44 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type Renderable } from '../types/renderable'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type Renderable } from '../renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
 import { type JSX } from '../jsx'
 import { makeRenderables } from '../jsx-runtime'
 &nbsp;
 export class FragmentImpl implements Renderable {
   constructor (private readonly children: Renderable[]) { }
-  readonly appendTo = (ctx: IDOMContext): Clear =&gt; {
-    const clears = this.children.map(child =&gt; child.appendTo(ctx))
-    return (removeTree: boolean) =&gt; {
-<span class="cstat-no" title="statement not covered" >      clears.forEach(clear =&gt; { clear(removeTree) })</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+  readonly appendTo = (ctx: DOMContext): Clear =&gt; {
+    const clears = this.children.map(<span class="fstat-no" title="function not covered" >child </span>=&gt; <span class="cstat-no" title="statement not covered" >child.appendTo(ctx))</span>
+    return <span class="fstat-no" title="function not covered" >(r</span>emoveTree: boolean) =&gt; {
+<span class="cstat-no" title="statement not covered" >      clears.forEach(<span class="fstat-no" title="function not covered" >clear </span>=&gt; { <span class="cstat-no" title="statement not covered" >clear(removeTree) }</span>)</span>
+    }
   }
 }
 &nbsp;
-export <span class="fstat-no" title="function not covered" >function Fragment ({ children }: { children: JSX.DOMNode }): Renderable {</span>
+export function <span class="fstat-no" title="function not covered" >Fragment </span>({ children }: { children: JSX.DOMNode }): Renderable {
 <span class="cstat-no" title="statement not covered" >  return new FragmentImpl(makeRenderables(children))</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >}</span></span>
+}
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -127,7 +127,7 @@ export <span class="fstat-no" title="function not covered" >function Fragment ({
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-04T02:09:47.970Z
+                at 2023-04-06T01:13:55.462Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

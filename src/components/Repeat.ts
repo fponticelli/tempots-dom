@@ -1,7 +1,7 @@
 import { type Signal } from '../prop'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
 import { Fragment } from './Fragment'
 
 export class RepeatImpl implements Renderable {
@@ -10,7 +10,7 @@ export class RepeatImpl implements Renderable {
     private readonly children: (index: number) => Renderable
   ) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const newCtx = ctx.makeReference()
     const count = this.times.get()
     const clears = new Array<Clear>(count)

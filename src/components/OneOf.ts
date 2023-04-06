@@ -1,7 +1,7 @@
 import { Prop, type Signal } from '../prop'
-import { type Clear } from '../types/clean'
-import { type IDOMContext } from '../types/idom-context'
-import { type Renderable } from '../types/renderable'
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
 import { type JSX } from '../jsx'
 import { makeRenderable } from '../jsx-runtime'
 
@@ -13,7 +13,7 @@ export class OneOfImpl<T extends [AnyKey, unknown]> implements Renderable {
       [KK in T[0]]: (value: Signal<T[1]>) => JSX.DOMNode
     }) { }
 
-  readonly appendTo = (ctx: IDOMContext): Clear => {
+  readonly appendTo = (ctx: DOMContext): Clear => {
     const pair: [T[0], T[1]] = this.match.get()
     let key = pair[0]
     const value = pair[1]
