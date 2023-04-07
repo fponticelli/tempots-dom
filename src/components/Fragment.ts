@@ -5,7 +5,7 @@ import { type JSX } from '../jsx'
 import { makeRenderables } from '../jsx-runtime'
 
 export class FragmentImpl implements Renderable {
-  constructor (private readonly children: Renderable[]) { }
+  constructor(private readonly children: Renderable[]) { }
   readonly appendTo = (ctx: DOMContext): Clear => {
     const clears = this.children.map(child => child.appendTo(ctx))
     return (removeTree: boolean) => {
@@ -14,6 +14,6 @@ export class FragmentImpl implements Renderable {
   }
 }
 
-export function Fragment ({ children }: { children: JSX.DOMNode }): Renderable {
+export function Fragment({ children }: { children: JSX.DOMNode }): Renderable {
   return new FragmentImpl(makeRenderables(children))
 }

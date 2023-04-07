@@ -6,7 +6,7 @@ import { type Clear } from '../clean'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export class MatchImpl<T extends { [_ in K]: any }, K extends keyof T> {
-  constructor (
+  constructor(
     private readonly on: Signal<T>,
     private readonly using: K,
     private readonly matches: {
@@ -58,7 +58,7 @@ export type MatchProps<T extends { [_ in K]: AnyKey }, K extends keyof T> = {
   }
 }
 
-export function Match<T extends { [_ in K]: AnyKey }, K extends keyof T> ({
+export function Match<T extends { [_ in K]: AnyKey }, K extends keyof T>({
   on,
   using,
   matches

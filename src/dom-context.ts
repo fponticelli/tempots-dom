@@ -1,10 +1,10 @@
 import { type Clear } from './clean'
 
-function extractClassNames (cls: string): string[] {
-  return (cls ?? '').replace(/\s+/g, ' ').split(' ').filter((className) => className.length > 0)
+function extractClassNames(cls: string): string[] {
+  return (cls ?? '').split(/\s+/g).filter((className) => className.length > 0)
 }
 
-function createIntegerSet (x: number): Set<number> {
+function createIntegerSet(x: number): Set<number> {
   const integerSet = new Set<number>()
 
   for (let i = 0; i < x; i++) {
@@ -15,19 +15,19 @@ function createIntegerSet (x: number): Set<number> {
 
 export type ProviderMark<T> = symbol
 
-export function makeProviderMark<T> (): ProviderMark<T> {
+export function makeProviderMark<T>(): ProviderMark<T> {
   return Symbol('providerMark')
 }
 
 export type Providers = Record<ProviderMark<unknown>, unknown>
 
 export class DOMContext {
-  static of (element: HTMLElement): DOMContext {
+  static of(element: HTMLElement): DOMContext {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return new DOMContext(element.ownerDocument, element, undefined, undefined, {})
   }
 
-  constructor (
+  constructor(
     private readonly document: Document,
     private readonly element: HTMLElement,
     private readonly reference: Text | undefined,
@@ -35,29 +35,34 @@ export class DOMContext {
     private readonly providers: Providers
   ) { }
 
-  append (node: Node): void {
+  append(node: Node): void {
     if (this.reference !== undefined) {
-      this.element.insertBefore(node, this.reference)
+      try {
+        // There are components (TextContent, InnerHTML) that can mess up with the internal state of an element
+        this.element.insertBefore(node, this.reference)
+      } catch (_) {
+        this.element.appendChild(node)
+      }
     } else {
       this.element.appendChild(node)
     }
   }
 
-  getElement (): HTMLElement {
+  getElement(): HTMLElement {
     return this.element
   }
 
-  getDocument (): Document {
+  getDocument(): Document {
     return this.document
   }
 
-  makeReference (): DOMContext {
+  makeReference(): DOMContext {
     const textNode = this.document.createTextNode('')
     this.append(textNode)
     return new DOMContext(this.document, this.element, textNode, this.ns, this.providers)
   }
 
-  makeElement (tagName: string): DOMContext {
+  makeElement(tagName: string): DOMContext {
     if (this.ns !== undefined || tagName === 'svg') {
       const ns = this.ns ?? 'http://www.w3.org/2000/svg'
       const element = this.document.createElementNS(ns, tagName)
@@ -70,11 +75,11 @@ export class DOMContext {
     }
   }
 
-  getBooleanAttribute (name: string): boolean {
+  getBooleanAttribute(name: string): boolean {
     return this.element.hasAttribute(name)
   }
 
-  setBooleanAttribute (name: string, value: boolean): void {
+  setBooleanAttribute(name: string, value: boolean): void {
     if (value) {
       this.element.setAttribute(name, '')
     } else {
@@ -82,7 +87,7 @@ export class DOMContext {
     }
   }
 
-  createBooleanAttribute (name: string, value: boolean): [(newValue: boolean) => void, Clear] {
+  createBooleanAttribute(name: string, value: boolean): [(newValue: boolean) => void, Clear] {
     const current = this.element.hasAttribute(name)
     this.setBooleanAttribute(name, value)
     return [
@@ -97,11 +102,11 @@ export class DOMContext {
     ]
   }
 
-  getAttribute (name: string): string | null {
+  getAttribute(name: string): string | null {
     return this.element.getAttribute(name)
   }
 
-  setAttribute (name: string, value: string | null): void {
+  setAttribute(name: string, value: string | null): void {
     if (value == null) {
       this.element.removeAttribute(name)
     } else {
@@ -109,7 +114,7 @@ export class DOMContext {
     }
   }
 
-  createAttribute (name: string, value: string): [(newValue: string) => void, Clear] {
+  createAttribute(name: string, value: string): [(newValue: string) => void, Clear] {
     const current = this.element.getAttribute(name)
     this.setAttribute(name, value)
     return [
@@ -151,7 +156,7 @@ export class DOMContext {
     ]
   }
 
-  createText (text: string): [(newText: string) => void, Clear] {
+  createText(text: string): [(newText: string) => void, Clear] {
     const textNode = this.document.createTextNode(text)
     this.append(textNode)
     return [
@@ -166,7 +171,7 @@ export class DOMContext {
     ]
   }
 
-  createClass (cls: string): [(newClass: string) => void, Clear] {
+  createClass(cls: string): [(newClass: string) => void, Clear] {
     let current = extractClassNames(cls)
     current.forEach((className) => {
       this.element.classList.add(className)
@@ -203,40 +208,36 @@ export class DOMContext {
     }
   }
 
-  private readonly suspendedClears: Array<(clear: () => void) => void> = []
-  delayClear (removeTree: boolean, f: (clear: () => void) => void): void {
+  private readonly suspendedClears: Array<(removeTree: boolean, clear: () => void) => void> = []
+  delayClear(f: (removeTree: boolean, clear: () => void) => void): (removeTree: boolean) => void {
     this.suspendedClears.push(f)
-    this.requestClear(removeTree, () => {
-      console.log('clearing')
-    })
+    return (removeTree) => {
+      // TODO nothing happens?
+    }
   }
 
-  requestClear (removeTree: boolean, willClear: () => void): void {
+  requestClear(removeTree: boolean, willClear: () => void): void {
     if (this.suspendedClears.length === 0) {
-      console.log('clear direct')
       willClear()
       this.clear(removeTree)
     } else {
-      console.log('clear INdirect')
       const set = createIntegerSet(this.suspendedClears.length)
-      console.log('set', set)
       const clearSuspended = (index: number): void => {
         set.delete(index)
-        console.log('polling', set.size === 0, index)
         if (set.size === 0) {
           willClear()
           this.clear(removeTree)
         }
       }
-      this.suspendedClears.forEach((f, i) => { f(() => { clearSuspended(i) }) })
+      this.suspendedClears.forEach((f, i) => { f(removeTree, () => { clearSuspended(i) }) })
       this.suspendedClears.length = 0
     }
   }
 
-  private clear (removeTree: boolean): void {
+  private clear(removeTree: boolean): void {
     if (removeTree) {
       if (this.reference !== undefined) {
-        this.element.removeChild(this.reference)
+        this.reference.parentElement?.removeChild(this.reference)
       } else {
         this.element.onblur = null
         this.element.parentElement?.removeChild(this.element)
@@ -255,7 +256,7 @@ export class DOMContext {
     return this.providers[mark] as T
   }
 
-  setStyle (name: string, value: string | undefined | null): void {
+  setStyle(name: string, value: string | undefined | null): void {
     if (value == null) {
       this.element.style.removeProperty(name)
     } else {
@@ -263,7 +264,7 @@ export class DOMContext {
     }
   }
 
-  createStyle (name: string, value: string | undefined | null): [(newValue: string) => void, Clear] {
+  createStyle(name: string, value: string | undefined | null): [(newValue: string) => void, Clear] {
     const current = this.element.style.getPropertyValue(name)
     this.setStyle(name, value)
     return [

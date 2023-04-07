@@ -10,7 +10,7 @@ export interface ForProps<T> {
 }
 
 // <For of={values}>{(value) => <span>{value}</span>}</For>
-export function For<T> ({ of, children: render }: ForProps<T>): JSX.DOMNode {
+export function For<T>({ of, children: render }: ForProps<T>): JSX.DOMNode {
   const times = of.map(v => v.length)
   return new RepeatImpl(times, (index: number) => {
     const value = of.at(index)

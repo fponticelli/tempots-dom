@@ -4,13 +4,13 @@ import { type DOMContext } from '../dom-context'
 import { type Renderable } from '../renderable'
 
 export class TextContentImpl implements Renderable {
-  constructor (private readonly html: Signal<string> | Signal<string | undefined>) { }
+  constructor(private readonly value: Signal<string> | Signal<string | undefined>) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const el = ctx.getElement()
     const previous = el.textContent
-    el.textContent = this.html.get() ?? ''
-    const cancel = this.html.subscribe(value => {
+    el.textContent = this.value.get() ?? ''
+    const cancel = this.value.subscribe(value => {
       el.textContent = value ?? ''
     })
     return (removeTree: boolean) => {
@@ -23,9 +23,9 @@ export class TextContentImpl implements Renderable {
 }
 
 export interface TextContentProps {
-  html: Signal<string> | Signal<string | undefined>
+  value: Signal<string> | Signal<string | undefined>
 }
 
-export function TextContent ({ html }: TextContentProps): TextContentImpl {
-  return new TextContentImpl(html)
+export function TextContent({ value }: TextContentProps): TextContentImpl {
+  return new TextContentImpl(value)
 }

@@ -18,7 +18,7 @@ import { FadeOut, FadeOutImpl, FadeOutProps } from './components/FadeOut'
 import { For, type ForProps } from './components/For'
 import { FragmentImpl, Fragment } from './components/Fragment'
 import { HiddenWhenEmptyImpl, HiddenWhenEmpty } from './components/HiddenWhenEmpty'
-import { If, type IfProps, When, type WhenProps } from './components/If'
+import { If, type IfProps, Unless, When, type WhenProps } from './components/If'
 import { InnerHTMLImpl, InnerHTML, type InnerHTMLProps } from './components/InnerHTML'
 import { Lifecycle, LifecycleImpl, type LifecycleProps } from './components/Lifecycle'
 import { MatchImpl, Match, type MatchProps } from './components/Match'
@@ -71,6 +71,7 @@ export {
   Signal,
   TextImpl, Text,
   TextContentImpl, TextContent,
+  Unless,
   When
 }
 

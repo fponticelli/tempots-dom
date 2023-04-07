@@ -51,7 +51,7 @@ export interface Animatable {
   blur?: number
 }
 
-export function getComputedAnimatableProp (styles: CSSStyleDeclaration, key: keyof Animatable): Animatable[typeof key] {
+export function getComputedAnimatableProp(styles: CSSStyleDeclaration, key: keyof Animatable): Animatable[typeof key] {
   if (key === 'translateX') {
     return new WebKitCSSMatrix(styles.transform).m41
   } else if (key === 'translateY') {
@@ -94,7 +94,7 @@ export function getComputedAnimatableProp (styles: CSSStyleDeclaration, key: key
   return Number(styles.getPropertyValue(key))
 }
 
-export function getComputedAnimatable (el: HTMLElement, styles: Animatable): Animatable {
+export function getComputedAnimatable(el: HTMLElement, styles: Animatable): Animatable {
   const result: Animatable = {}
   const computedStyles = getComputedStyle(el)
   for (const [key, value] of Object.entries(styles)) {
@@ -106,7 +106,7 @@ export function getComputedAnimatable (el: HTMLElement, styles: Animatable): Ani
   return result
 }
 
-export function applyAnimatableProp (el: HTMLElement, key: keyof Animatable, value: Animatable[typeof key]): void {
+export function applyAnimatableProp(el: HTMLElement, key: keyof Animatable, value: Animatable[typeof key]): void {
   if (value == null) return
 
   if (key === 'translateX') {
@@ -151,14 +151,14 @@ export function applyAnimatableProp (el: HTMLElement, key: keyof Animatable, val
   el.style.setProperty(key, String(value))
 }
 
-export function applyInterpolatedAnimatableProp (el: HTMLElement, key: keyof Animatable, from: Animatable[typeof key], to: Animatable[typeof key], progress: number): void {
+export function applyInterpolatedAnimatableProp(el: HTMLElement, key: keyof Animatable, from: Animatable[typeof key], to: Animatable[typeof key], progress: number): void {
   if (from != null && to != null) {
     const value = from + (to - from) * progress
     applyAnimatableProp(el, key, value)
   }
 }
 
-export function applyInterpolatedAnimatable (el: HTMLElement, from: Animatable, to: Animatable, progress: number): void {
+export function applyInterpolatedAnimatable(el: HTMLElement, from: Animatable, to: Animatable, progress: number): void {
   el.style.transform = ''
   el.style.filter = ''
   for (const [key, value] of Object.entries(to)) {
@@ -167,7 +167,7 @@ export function applyInterpolatedAnimatable (el: HTMLElement, from: Animatable, 
   }
 }
 
-export function applyAnimatable (el: HTMLElement, styles: Animatable): void {
+export function applyAnimatable(el: HTMLElement, styles: Animatable): void {
   el.style.transform = ''
   el.style.filter = ''
   for (const [key, value] of Object.entries(styles)) {

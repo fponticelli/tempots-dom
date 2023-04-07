@@ -5,7 +5,7 @@ import { type Renderable } from '../renderable'
 import { Fragment } from './Fragment'
 
 export class RepeatImpl implements Renderable {
-  constructor (
+  constructor(
     private readonly times: Signal<number>,
     private readonly children: (index: number) => Renderable
   ) { }
@@ -43,4 +43,4 @@ export interface RepeatProps {
   children?: (index: number) => Renderable
 }
 
-export function Repeat (props: RepeatProps): Renderable { return new RepeatImpl(props.times, props.children ?? (() => Fragment({ children: [] }))) }
+export function Repeat(props: RepeatProps): Renderable { return new RepeatImpl(props.times, props.children ?? (() => Fragment({ children: [] }))) }

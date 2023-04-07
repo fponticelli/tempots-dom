@@ -4,14 +4,14 @@ import { Renderable } from "../renderable"
 import { getComputedAnimatable, Animatable, applyInterpolatedAnimatable, applyAnimatable } from "./animatable"
 
 export class FadeInImpl implements Renderable {
-  constructor (
+  constructor(
     private readonly end: Animatable,
     private readonly start: Animatable | undefined,
     private readonly duration: number,
     private readonly delay: number
   ) { }
 
-  appendTo (ctx: DOMContext): Clear {
+  appendTo(ctx: DOMContext): Clear {
     const el = ctx.getElement()
     const start = (() => {
       if (this.start != null) {
@@ -53,7 +53,7 @@ export interface FadeInProps extends Animatable {
   delay?: number
 }
 
-export function FadeIn (props: FadeInProps): Renderable {
+export function FadeIn(props: FadeInProps): Renderable {
   const { start, duration, delay, ...end } = props
   return new FadeInImpl(end, start, duration ?? 200, delay ?? 0)
 }

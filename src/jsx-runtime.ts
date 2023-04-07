@@ -63,12 +63,12 @@ const domProperties = new Set([
 ])
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isPrimitive (value: any): value is string | number | boolean | Date | bigint {
+function isPrimitive(value: any): value is string | number | boolean | Date | bigint {
   return typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean' || typeof value === 'bigint' || value instanceof Date
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function makeRenderables (value: any): Renderable[] {
+export function makeRenderables(value: any): Renderable[] {
   if (value == null) {
     return []
   }
@@ -91,7 +91,7 @@ export function makeRenderables (value: any): Renderable[] {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function makeRenderable (value: any): Renderable {
+export function makeRenderable(value: any): Renderable {
   const renderables = makeRenderables(value)
   if (renderables.length === 0) {
     return new FragmentImpl([])
@@ -103,12 +103,12 @@ export function makeRenderable (value: any): Renderable {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function isNamedConstructor (obj: any): boolean {
+function isNamedConstructor(obj: any): boolean {
   return obj.prototype?.constructor?.name != null
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function makeFragment ({ children }: { children: any[] }): Renderable {
+function makeFragment({ children }: { children: any[] }): Renderable {
   if (Array.isArray(children)) {
     return new FragmentImpl(children.flatMap(makeRenderables))
   } else {
@@ -117,7 +117,7 @@ function makeFragment ({ children }: { children: any[] }): Renderable {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function makeElement (Name: any, ...args: any[]): Renderable {
+function makeElement(Name: any, ...args: any[]): Renderable {
   if (typeof Name === 'function') {
     if (isNamedConstructor(Name)) {
       const el = new Name(...args)

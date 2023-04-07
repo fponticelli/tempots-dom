@@ -8,7 +8,7 @@ export interface IfProps {
   otherwise?: JSX.DOMNode
 }
 
-export function If ({ is, then, otherwise }: IfProps): JSX.DOMNode {
+export function If({ is, then, otherwise }: IfProps): JSX.DOMNode {
   return new OneOfImpl(
     is.map(v => v ? [1, true] as [1, true] : [2, false] as [2, false]),
     {
@@ -23,7 +23,7 @@ export interface WhenProps {
   children?: JSX.DOMNode
 }
 
-export function When ({ is, children }: WhenProps): JSX.DOMNode {
+export function When({ is, children }: WhenProps): JSX.DOMNode {
   return new OneOfImpl(
     is.map(v => v ? [1, true] as [1, true] : [2, false] as [2, false]),
     {
@@ -33,12 +33,12 @@ export function When ({ is, children }: WhenProps): JSX.DOMNode {
   )
 }
 
-export function Unless ({ is, children }: WhenProps): JSX.DOMNode {
+export function Unless({ is, children }: WhenProps): JSX.DOMNode {
   return new OneOfImpl(
-    is.map(v => v ? [1, false] as [1, false] : [2, true] as [2, true]),
+    is.map(v => v ? [1, true] as [1, true] : [2, false] as [2, false]),
     {
-      1: () => children,
-      2: () => null
+      1: () => null,
+      2: () => children
     }
   )
 }

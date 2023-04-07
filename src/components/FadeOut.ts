@@ -4,37 +4,35 @@ import { Renderable } from "../renderable"
 import { getComputedAnimatable, Animatable, applyInterpolatedAnimatable } from "./animatable"
 
 export class FadeOutImpl implements Renderable {
-  constructor (
+  constructor(
     private readonly end: Animatable,
     private readonly duration: number,
     private readonly delay: number
   ) { }
 
-  appendTo (ctx: DOMContext): Clear {
+  appendTo(ctx: DOMContext): Clear {
     const el = ctx.getElement()
     const { duration, end } = this
 
-    return (removeTree: boolean) => {
-      ctx.delayClear(removeTree, (clear) => {
-        const start = getComputedAnimatable(el, this.end)
-        const startTime = Date.now() + this.delay
-        function frame() {
-          const now = Date.now()
-          if (now < startTime) {
-            requestAnimationFrame(frame)
-            return
-          }
-          const progress = Math.min((now - startTime) / duration, 1)
-          applyInterpolatedAnimatable(el, start, end, progress)
-          if (progress < 1) {
-            requestAnimationFrame(frame)
-          } else {
-            clear()
-          }
+    return ctx.delayClear((removeTree, clear) => {
+      const start = getComputedAnimatable(el, this.end)
+      const startTime = Date.now() + this.delay
+      function frame() {
+        const now = Date.now()
+        if (now < startTime) {
+          requestAnimationFrame(frame)
+          return
         }
-        requestAnimationFrame(frame)
-      })
-    }
+        const progress = Math.min((now - startTime) / duration, 1)
+        applyInterpolatedAnimatable(el, start, end, progress)
+        if (progress < 1) {
+          requestAnimationFrame(frame)
+        } else {
+          clear()
+        }
+      }
+      requestAnimationFrame(frame)
+    })
   }
 }
 
@@ -43,7 +41,7 @@ export interface FadeOutProps extends Animatable {
   delay?: number
 }
 
-export function FadeOut (props: FadeOutProps): Renderable {
+export function FadeOut(props: FadeOutProps): Renderable {
   const { duration, delay, ...end } = props
   return new FadeOutImpl(end, duration ?? 200, delay ?? 0)
 }

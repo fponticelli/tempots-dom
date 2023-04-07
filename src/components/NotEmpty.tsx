@@ -10,12 +10,12 @@ export interface NotEmptyProps<T> {
   display: JSX.DOMNode
 }
 
-function isEmpty (obj: Record<AnyKey, unknown>): boolean {
+function isEmpty(obj: Record<AnyKey, unknown>): boolean {
   return Object.keys(obj).length === 0
 }
 
 // <NotEmpty on={maybevalue} whenEmpty={<span>nothing to show</span>}}>{value => value.toText()}</NotEmpty>
-export function NotEmpty<T extends unknown[] | Record<AnyKey, unknown>> ({
+export function NotEmpty<T extends unknown[] | Record<AnyKey, unknown>>({
   on,
   display,
   whenEmpty
