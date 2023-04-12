@@ -155,6 +155,47 @@ export class Signal<T> {
   readonly clean = (): void => {
     this._listeners.length = 0
   }
+
+  readonly count = (): Signal<number> => {
+    let count = 0
+    return this.map(() => ++count)
+  }
+
+  readonly animate = (duration: number, interpolate: (start: T, end: T, delta: number) => T, initialValue: T | null = null, easing: (t: number) => number = t => t): Signal<T> => {
+    let startValue = initialValue ?? this.get()
+    let endValue = this.get()
+    const prop = new Prop(startValue)
+    let startTime = 0
+    let endTime = 0
+    let animationFrame: number | null = null
+    const animate = (time: number): void => {
+      if (this._listeners.length === 0) {
+        animationFrame = null
+        return
+      }
+      if (time < endTime) {
+        const delta = (time - startTime) / (endTime - startTime)
+        prop.set(interpolate(startValue, endValue, easing(delta)))
+        animationFrame = requestAnimationFrame(animate)
+      } else {
+        prop.set(endValue)
+        animationFrame = null
+      }
+    }
+    this.subscribe(value => {
+      if (animationFrame != null) cancelAnimationFrame(animationFrame)
+      if (this._listeners.length === 0) {
+        animationFrame = null
+        return
+      }
+      startValue = prop.get()
+      endValue = value
+      startTime = performance.now()
+      endTime = startTime + duration
+      animationFrame = requestAnimationFrame(animate)
+    })
+    return prop
+  }
 }
 
 export class Prop<T> extends Signal<T> {
