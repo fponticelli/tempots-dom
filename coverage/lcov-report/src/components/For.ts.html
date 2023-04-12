@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">55.55% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/9</span>
+                <span class='fraction'>9/9</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -85,11 +85,16 @@
 <a name='L20'></a><a href='#L20'>20</a>
 <a name='L21'></a><a href='#L21'>21</a>
 <a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<a name='L23'></a><a href='#L23'>23</a>
+<a name='L24'></a><a href='#L24'>24</a>
+<a name='L25'></a><a href='#L25'>25</a>
+<a name='L26'></a><a href='#L26'>26</a>
+<a name='L27'></a><a href='#L27'>27</a>
+<a name='L28'></a><a href='#L28'>28</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -97,37 +102,47 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { type Signal } from '../prop'
-import { RepeatImpl } from './Repeat'
+import { RepeatImpl, SeparatorProps } from './Repeat'
 import { type JSX, makeRenderable } from '../jsx-runtime'
 import { FragmentImpl } from './Fragment'
 import { OnRemoveImpl } from './OnRemove'
 &nbsp;
 export interface ForProps&lt;T&gt; {
   of: Signal&lt;T[]&gt;
+  separator?: (value: Signal&lt;SeparatorProps&gt;) =&gt; JSX.DOMNode
   children?: (value: Signal&lt;T&gt;, index: number) =&gt; JSX.DOMNode
 }
 &nbsp;
 // &lt;For of={values}&gt;{(value) =&gt; &lt;span&gt;{value}&lt;/span&gt;}&lt;/For&gt;
-export function <span class="fstat-no" title="function not covered" >For&lt;</span>T&gt; ({ of, children: render }: ForProps&lt;T&gt;): JSX.DOMNode {
-  const times = <span class="cstat-no" title="statement not covered" >of.map(<span class="fstat-no" title="function not covered" >v </span>=&gt; <span class="cstat-no" title="statement not covered" >v.length)</span></span>
-<span class="cstat-no" title="statement not covered" >  return new RepeatImpl(times, <span class="fstat-no" title="function not covered" >(i</span>ndex: number) =&gt; {</span>
-    const value = <span class="cstat-no" title="statement not covered" >of.at(index)</span>
-<span class="cstat-no" title="statement not covered" >    return new FragmentImpl([</span>
-      makeRenderable(render?.(value, index)),
-      new OnRemoveImpl(value.clean)
-    ])
-  })
+export function For&lt;T&gt;({ of, children: render, separator }: ForProps&lt;T&gt;): JSX.DOMNode {
+  const times = of.map(v =&gt; v.length)
+  return new RepeatImpl(
+    times,
+    (index: number) =&gt; {
+      const value = of.at(index)
+      return new FragmentImpl([
+        makeRenderable(render?.(value, index)),
+        new OnRemoveImpl(value.clean)
+      ])
+    },
+    separator
+  )
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -136,7 +151,7 @@ export function <span class="fstat-no" title="function not covered" >For&lt;</sp
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-06T20:47:34.966Z
+                at 2023-04-12T23:07:48.961Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
