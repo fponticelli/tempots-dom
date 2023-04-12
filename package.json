@@ -1,19 +1,17 @@
 {
   "name": "@tempots/dom",
-  "version": "5.0.1",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "version": "5.0.2",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "watch": "tsc --watch",
     "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
-    "npm:publish": "yarn publish --access public"
+    "npm:prep": "yarn build && cp README.md package.json dist",
+    "npm:publish": "yarn npm:prep && (cd dist && yarn publish --access public)"
   },
-  "files": [
-    "dist"
-  ],
   "dependencies": {},
   "devDependencies": {
     "@happy-dom/jest-environment": "^9.1.7",

@@ -7,7 +7,7 @@ import { makeRenderable } from '../jsx-runtime'
 
 export type AnyKey = string | number | symbol
 export class OneOfImpl<T extends [AnyKey, unknown]> implements Renderable {
-  constructor(
+  constructor (
     private readonly match: Signal<T>,
     private readonly cases: {
       [KK in T[0]]: (value: Signal<T[1]>) => JSX.DOMNode
@@ -17,8 +17,8 @@ export class OneOfImpl<T extends [AnyKey, unknown]> implements Renderable {
     const pair: [T[0], T[1]] = this.match.get()
     let key = pair[0]
     const value = pair[1]
+    const stableCtx = ctx.makeReference()
     let prop = new Prop(value)
-    let stableCtx = ctx.makeReference()
     let newCtx = stableCtx.makeReference()
     let clear = makeRenderable(this.cases[key](prop)).appendTo(newCtx)
     const cancel = this.match.subscribe(([newKey, newValue]) => {
@@ -48,10 +48,10 @@ export class OneOfImpl<T extends [AnyKey, unknown]> implements Renderable {
 export type OneOfProps<T extends [AnyKey, unknown]> = {
   match: Signal<T>
 } & {
-    [KK in T[0]]: (value: Signal<T[1]>) => JSX.DOMNode
-  }
+  [KK in T[0]]: (value: Signal<T[1]>) => JSX.DOMNode
+}
 
 // <OneOf match={counter.map(v => v % 2 == 0 ? [1, "odd"] : [2, "even"])} 1={t => <b>{t}</b>} 2={t => <i>{t}</i>} /
-export function OneOf<T extends [AnyKey, unknown]>(props: OneOfProps<T>): JSX.DOMNode {
+export function OneOf<T extends [AnyKey, unknown]> (props: OneOfProps<T>): JSX.DOMNode {
   return new OneOfImpl(props.match, props)
 }
