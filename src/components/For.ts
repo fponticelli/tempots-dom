@@ -2,7 +2,7 @@ import { type Signal } from '../prop'
 import { RepeatImpl, SeparatorProps } from './Repeat'
 import { type JSX, makeRenderable } from '../jsx-runtime'
 import { FragmentImpl } from './Fragment'
-import { OnRemoveImpl } from './OnRemove'
+import { OnRemove } from './OnRemove'
 
 export interface ForProps<T> {
   of: Signal<T[]>
@@ -10,7 +10,7 @@ export interface ForProps<T> {
   children?: (value: Signal<T>, index: number) => JSX.DOMNode
 }
 
-// <For of={values}>{(value) => <span>{value}</span>}</For>
+// <For of={values} separator={() => ", "}>{(value) => <span>{value}</span>}</For>
 export function For<T>({ of, children: render, separator }: ForProps<T>): JSX.DOMNode {
   const times = of.map(v => v.length)
   return new RepeatImpl(
@@ -19,7 +19,7 @@ export function For<T>({ of, children: render, separator }: ForProps<T>): JSX.DO
       const value = of.at(index)
       return new FragmentImpl([
         makeRenderable(render?.(value, index)),
-        new OnRemoveImpl(value.clean)
+        OnRemove({ clear: value.clean })
       ])
     },
     separator

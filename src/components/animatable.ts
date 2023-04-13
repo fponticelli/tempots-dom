@@ -23,13 +23,15 @@ export interface Animatable {
   marginRight?: number
   fontSize?: number
   letterSpacing?: number
-  // color?: string
-  // backgroundColor?: string
-  // borderColor?: string
+  color?: string
+  backgroundColor?: string
+  borderColor?: string
   borderWidth?: number
   borderRadius?: number
-  // boxShadow?: string
-  // textShadow?: string
+  boxShadow?: string
+  textShadow?: string
+  outlineWidth?: number
+  outlineColor?: string
   translateX?: number
   translateY?: number
   translateZ?: number
@@ -49,6 +51,124 @@ export interface Animatable {
   brightness?: number
   contrast?: number
   blur?: number
+}
+
+export type ColorChannels = [number, number, number, number, 'rgba' | 'hex' | 'hsla']
+
+export function parseColorChannels(color: string): ColorChannels {
+  let match = color.match(/rgba?\((\d+), (\d+), (\d+)(, (\d+))?\)/)
+  if (match) {
+    return [
+      Number(match[1]),
+      Number(match[2]),
+      Number(match[3]),
+      match[4] ? Number(match[5]) : 1,
+      'rgba'
+    ]
+  } else {
+    match = color.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/)
+    if (match) {
+      return [
+        parseInt(match[1], 16),
+        parseInt(match[2], 16),
+        parseInt(match[3], 16),
+        1,
+        'hex'
+      ]
+    } else {
+      match = color.match(/hsla?\((\d+), (\d+)%?, (\d+)%?(, (\d+))?\)/)
+      if (match) {
+        return [
+          Number(match[1]),
+          Number(match[2]),
+          Number(match[3]),
+          match[4] ? Number(match[5]) : 1,
+          'hsla'
+        ]
+      }
+    }
+  }
+  return [0, 0, 0, 1, 'rgba']
+}
+
+export interface BoxShadow {
+  inset: boolean
+  x: number
+  y: number
+  blur: number
+  spread: number
+  color: string
+}
+
+function parseBoxShadow(cssString: string): BoxShadow {
+  const boxShadowRegex = /^(inset\s)?(-?\d+)([a-zA-Z]*)(\s+)(-?\d+)([a-zA-Z]*)(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+)([a-zA-Z0-9(),.]+)$/i;
+  const match = cssString.match(boxShadowRegex);
+
+  if (!match) {
+    return {
+      inset: false,
+      x: 0,
+      y: 0,
+      blur: 0,
+      spread: 0,
+      color: 'rgba(0, 0, 0, 0)'
+    };
+  }
+
+  const [, inset, x, , , y, , blur, , spread, , color] = match;
+
+  const parsedBlur = blur ? parseInt(blur, 10) : 0;
+  const parsedSpread = spread ? parseInt(spread, 10) : 0;
+
+  return {
+    inset: !!inset,
+    x: parseInt(x, 10),
+    y: parseInt(y, 10),
+    blur: parsedBlur,
+    spread: parsedSpread,
+    color
+  };
+}
+
+function boxShadowToString(shadow: BoxShadow): string {
+  const { inset, x, y, blur, spread, color } = shadow;
+  return `${inset ? 'inset ' : ''}${x}px ${y}px ${blur}px ${spread}px ${color}`;
+}
+
+export function colorChannelsToString(channels: ColorChannels): string {
+  if (channels[4] === 'rgba') {
+    return `rgba(${channels[0]}, ${channels[1]}, ${channels[2]}, ${channels[3]})`
+  } else if (channels[4] === 'hex') {
+    return `#${channels[0].toString(16).padStart(2, '0')}${channels[1].toString(16).padStart(2, '0')}${channels[2].toString(16).padStart(2, '0')}`
+  } else if (channels[4] === 'hsla') {
+    return `hsla(${channels[0]}, ${channels[1]}%, ${channels[2]}%, ${channels[3]})`
+  }
+  return ''
+}
+
+export function interpolateColor(startColor: string, endColor: string): (t: number) => string {
+  const [startR, startG, startB, startA, startType] = parseColorChannels(startColor)
+  const [endR, endG, endB, endA, endType] = parseColorChannels(endColor)
+  return (t: number) => {
+    const r = startR + (endR - startR) * t
+    const g = startG + (endG - startG) * t
+    const b = startB + (endB - startB) * t
+    const a = startA + (endA - startA) * t
+    return colorChannelsToString([r, g, b, a, startType])
+  }
+}
+
+export function interpolateShadow(startShadow: string, endShadow: string): (t: number) => string {
+  const start = parseBoxShadow(startShadow);
+  const end = parseBoxShadow(endShadow);
+  return (t: number) => {
+    const x = start.x + (end.x - start.x) * t;
+    const y = start.y + (end.y - start.y) * t;
+    const blur = start.blur + (end.blur - start.blur) * t;
+    const spread = start.spread + (end.spread - start.spread) * t;
+    const color = getColorInterpolation(start.color, end.color)(t);
+    return boxShadowToString({ inset: start.inset, x, y, blur, spread, color });
+  };
 }
 
 export function getComputedAnimatableProp(styles: CSSStyleDeclaration, key: keyof Animatable): Animatable[typeof key] {
@@ -100,7 +220,7 @@ export function getComputedAnimatable(el: HTMLElement, styles: Animatable): Anim
   for (const [key, value] of Object.entries(styles)) {
     const k = key as keyof Animatable
     if (value != null) {
-      result[k] = getComputedAnimatableProp(computedStyles, k)
+      result[k] = getComputedAnimatableProp(computedStyles, k) as any
     }
   }
   return result
@@ -151,10 +271,37 @@ export function applyAnimatableProp(el: HTMLElement, key: keyof Animatable, valu
   el.style.setProperty(key, String(value))
 }
 
+const interpolationCache = new Map<string, (progress: number) => string>()
+
+function getInterpolate(from: string, to: string, type: string) {
+  if (interpolationCache.has(type + ":" + from + to)) {
+    return interpolationCache.get(from + to)!
+  }
+  const f = interpolateColor(from, to)
+  interpolationCache.set(type + ":" + from + to, f)
+  return f
+}
+
+function getColorInterpolation(from: string, to: string) {
+  return getInterpolate(from, to, 'c')
+}
+
+function getShadowInterpolation(from: string, to: string) {
+  return getInterpolate(from, to, 's')
+}
+
 export function applyInterpolatedAnimatableProp(el: HTMLElement, key: keyof Animatable, from: Animatable[typeof key], to: Animatable[typeof key], progress: number): void {
   if (from != null && to != null) {
-    const value = from + (to - from) * progress
-    applyAnimatableProp(el, key, value)
+    if (typeof from === 'number' && typeof to === 'number') {
+      const value = from + (to - from) * progress
+      applyAnimatableProp(el, key, value)
+    } else if (key === 'boxShadow' || key === 'textShadow') {
+      const value = getShadowInterpolation(from as string, to as string)(progress)
+      applyAnimatableProp(el, key, value)
+    } else if (key === 'color' || key === 'backgroundColor' || key === 'borderColor' || key === 'outlineColor') {
+      const value = getColorInterpolation(from as string, to as string)(progress)
+      applyAnimatableProp(el, key, value)
+    }
   }
 }
 

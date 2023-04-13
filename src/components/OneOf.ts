@@ -5,26 +5,26 @@ import { type Renderable } from '../renderable'
 import { type JSX } from '../jsx'
 import { makeRenderable } from '../jsx-runtime'
 
-export type AnyKey = string | number | symbol
-export class OneOfImpl<T extends [AnyKey, unknown]> implements Renderable {
+export class OneOfImpl<T extends Record<string, unknown>> implements Renderable {
   constructor(
     private readonly match: Signal<T>,
     private readonly cases: {
-      [KK in T[0]]: (value: Signal<T[1]>) => JSX.DOMNode
+      [KK in keyof T]: (value: Signal<T[KK]>) => JSX.DOMNode
     }) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
-    const pair: [T[0], T[1]] = this.match.get()
-    let key = pair[0]
-    const value = pair[1]
+    const pair = this.match.get()
+    let key = Object.keys(pair)[0] as keyof T
+    const value = pair[key]
     let prop = new Prop(value)
-    let stableCtx = ctx.makeReference()
-    let newCtx = stableCtx.makeReference()
+    let newCtx = ctx.makeReference()
     let clear = makeRenderable(this.cases[key](prop)).appendTo(newCtx)
-    const cancel = this.match.subscribe(([newKey, newValue]) => {
+    const cancel = this.match.subscribe((newPair) => {
+      const newKey = Object.keys(newPair)[0] as keyof T
+      const newValue = newPair[newKey]
       if (newKey !== key) {
         newCtx.requestClear(true, () => {
-          newCtx = stableCtx.makeReference()
+          newCtx = newCtx.makeReference()
           key = newKey
           prop.clean()
           prop = new Prop(newValue)
@@ -37,21 +37,75 @@ export class OneOfImpl<T extends [AnyKey, unknown]> implements Renderable {
     })
     return (removeTree: boolean) => {
       newCtx.requestClear(removeTree, () => {
+        clear(removeTree)
         cancel()
         prop.clean()
-        stableCtx.requestClear(removeTree, () => { })
       })
     }
   }
 }
 
-export type OneOfProps<T extends [AnyKey, unknown]> = {
+export type OneOfProps<T extends Record<string, unknown>> = {
   match: Signal<T>
 } & {
-    [KK in T[0]]: (value: Signal<T[1]>) => JSX.DOMNode
+    [KK in keyof T]: (value: Signal<T[KK]>) => JSX.DOMNode
   }
 
-// <OneOf match={counter.map(v => v % 2 == 0 ? [1, "odd"] : [2, "even"])} 1={t => <b>{t}</b>} 2={t => <i>{t}</i>} /
-export function OneOf<T extends [AnyKey, unknown]>(props: OneOfProps<T>): JSX.DOMNode {
+// <OneOf match={counter.map(v => v % 2 == 0 ? {1: "odd"} : {2: "even"})} 1={t => <b>{t}</b>} 2={t => <i>{t}</i>} /
+export function OneOf<T extends Record<string, unknown>>(props: OneOfProps<T>): JSX.DOMNode {
   return new OneOfImpl(props.match, props)
 }
+
+export type OneOfLiteralProps<K extends string> = {
+  match: Signal<K>
+} & {
+    [KK in K]: JSX.DOMNode
+  }
+
+export function OneOfLiteral<K extends string>(props: OneOfLiteralProps<K>): JSX.DOMNode {
+  const { match, ...cases } = props
+  const keys = Object.keys(cases) as K[]
+  const obj = keys.reduce((acc, k) => {
+    acc[k] = () => cases[k]
+    return acc
+  }, {} as Record<K, (value: Signal<unknown>) => JSX.DOMNode>)
+  return new OneOfImpl(
+    match.map(k => ({ [k]: null } as Record<K, unknown>)),
+    obj
+  )
+}
+
+export type OneOfUnionProps<T extends { [_ in K]: string }, K extends string> = {
+  match: Signal<T>
+  using: K
+} & {
+    [KK in T[K]]: (value: Signal<T extends { [_ in K]: KK } ? T : never>) => JSX.DOMNode
+  }
+
+export function OneOfUnion<T extends { [_ in K]: string }, K extends string>(props: OneOfUnionProps<T, K>): JSX.DOMNode {
+  const { match, using, ...cases } = props
+  return new OneOfImpl(
+    match.map(t => ({ [t[using]]: t })),
+    cases as any
+  )
+}
+
+export type OneOfUnionTypeProps<T extends { [_ in "type"]: string }> = {
+  match: Signal<T>
+} & {
+    [KK in T["type"]]: (value: Signal<T extends { [_ in "type"]: KK } ? T : never>) => JSX.DOMNode
+  }
+
+export function OneOfUnionType<T extends { type: string }>(props: OneOfUnionTypeProps<T>): JSX.DOMNode {
+  return OneOfUnion({ ...props, using: "type" })
+}
+
+export type OneOfUnionKindProps<T extends { [_ in "kind"]: string }> = {
+  match: Signal<T>
+} & {
+    [KK in T["kind"]]: (value: Signal<T extends { [_ in "kind"]: KK } ? T : never>) => JSX.DOMNode
+  }
+export function OneOfUnionKind<T extends { kind: string }>(props: OneOfUnionKindProps<T>): JSX.DOMNode {
+  return OneOfUnion({ ...props, using: "kind" })
+}
+

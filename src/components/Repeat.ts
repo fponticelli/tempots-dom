@@ -127,3 +127,17 @@ export function Repeat(props: RepeatProps): Renderable {
     props.separator
   )
 }
+
+export function conjuctions(other: JSX.DOMNode, lastConjunction?: JSX.DOMNode, firstConjunction?: JSX.DOMNode): (sep: Signal<SeparatorProps>) => JSX.DOMNode {
+  return (sep: Signal<SeparatorProps>) => {
+    return sep.map(({ first, last }) => {
+      if (last) {
+        return lastConjunction ?? other
+      } else if (first) {
+        return firstConjunction ?? other
+      } else {
+        return other
+      }
+    })
+  }
+}

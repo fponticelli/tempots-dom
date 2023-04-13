@@ -4,9 +4,10 @@ import { type Clear } from '../clean'
 
 export class HiddenWhenEmptyImpl implements Renderable {
   appendTo(ctx: DOMContext): Clear {
+    const initial = ctx.getStyle(':empty')
     ctx.setStyle(':empty', 'display: none')
     return (removeTree) => {
-      if (removeTree) ctx.setStyle(':empty', null)
+      if (removeTree) ctx.setStyle(':empty', initial)
     }
   }
 }

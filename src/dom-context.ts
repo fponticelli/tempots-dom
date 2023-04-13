@@ -256,6 +256,10 @@ export class DOMContext {
     return this.providers[mark] as T
   }
 
+  getStyle(name: string): string | undefined | null {
+    return this.element.style.getPropertyValue(name)
+  }
+
   setStyle(name: string, value: string | undefined | null): void {
     if (value == null) {
       this.element.style.removeProperty(name)

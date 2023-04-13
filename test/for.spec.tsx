@@ -2,7 +2,7 @@
  * @jsxImportSource ../src
  */
 
-import { render, If, Prop, For, Signal } from '../src'
+import { render, If, Prop, For, Signal, conjuctions } from '../src'
 
 describe('For', () => {
   afterEach(() => {
@@ -27,9 +27,7 @@ describe('For', () => {
     const prop = Prop.of([1, 2, 3])
     const view = <For
       of={prop}
-      separator={s => s.map(v => {
-        return v.last ? '!' : v.first ? ':' : ','
-      })}
+      separator={conjuctions(',', '!', ':')}
     >{(v: Signal<number>) => v.map(String)}</For>
     render(view, document.body)
     expect(document.body.innerHTML).toBe('1:2!3')

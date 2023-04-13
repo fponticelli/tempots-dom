@@ -7,6 +7,7 @@ export class FadeInImpl implements Renderable {
   constructor(
     private readonly end: Animatable,
     private readonly start: Animatable | undefined,
+    private readonly easing: (t: number) => number,
     private readonly duration: number,
     private readonly delay: number
   ) { }
@@ -22,7 +23,7 @@ export class FadeInImpl implements Renderable {
       }
     })()
     const startTime = Date.now() + this.delay
-    const { duration, end } = this
+    const { duration, end, easing } = this
     let nextFrameId: null | number = null
     function frame() {
       const now = Date.now()
@@ -32,7 +33,7 @@ export class FadeInImpl implements Renderable {
       }
 
       const progress = Math.min((now - startTime) / duration, 1)
-      applyInterpolatedAnimatable(el, start, end, progress)
+      applyInterpolatedAnimatable(el, start, end, easing(progress))
       if (progress < 1) {
         nextFrameId = requestAnimationFrame(frame)
       } else {
@@ -48,12 +49,13 @@ export class FadeInImpl implements Renderable {
 }
 
 export interface FadeInProps extends Animatable {
-  start?: Animatable,
-  duration?: number,
+  start?: Animatable
+  duration?: number
+  easing?: (t: number) => number
   delay?: number
 }
 
 export function FadeIn(props: FadeInProps): Renderable {
-  const { start, duration, delay, ...end } = props
-  return new FadeInImpl(end, start, duration ?? 200, delay ?? 0)
+  const { start, duration, easing, delay, ...end } = props
+  return new FadeInImpl(end, start, easing ?? (v => v), duration ?? 200, delay ?? 0)
 }
