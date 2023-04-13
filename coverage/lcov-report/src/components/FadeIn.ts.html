@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">93.54% </span>
+                <span class="strong">93.93% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>29/31</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">80% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>8/10</span>
+                <span class='fraction'>31/33</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">83.33% </span>
-                <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>10/12</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">96.66% </span>
+                <span class="strong">85.71% </span>
+                <span class="quiet">Functions</span>
+                <span class='fraction'>6/7</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">96.77% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>29/30</span>
+                <span class='fraction'>30/31</span>
             </div>
         
             
@@ -122,7 +122,9 @@
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
 <a name='L59'></a><a href='#L59'>59</a>
-<a name='L60'></a><a href='#L60'>60</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
@@ -133,6 +135,7 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,16 +152,16 @@
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">26x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">15x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -177,9 +180,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">10x</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">17x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Clear } from "../clean"
 import { DOMContext } from "../dom-context"
@@ -190,6 +194,7 @@ export class FadeInImpl implements Renderable {
   constructor(
     private readonly end: Animatable,
     private readonly start: Animatable | undefined,
+    private readonly easing: (t: number) =&gt; number,
     private readonly duration: number,
     private readonly delay: number
   ) { }
@@ -205,7 +210,7 @@ export class FadeInImpl implements Renderable {
       }
     })()
     const startTime = Date.now() + this.delay
-    const { duration, end } = this
+    const { duration, end, easing } = this
     let nextFrameId: null | number = null
     function frame() {
       const now = Date.now()
@@ -215,7 +220,7 @@ export class FadeInImpl implements Renderable {
       }
 &nbsp;
       const progress = Math.min((now - startTime) / duration, 1)
-      applyInterpolatedAnimatable(el, start, end, progress)
+      applyInterpolatedAnimatable(el, start, end, easing(progress))
       if (progress &lt; 1) {
         nextFrameId = requestAnimationFrame(frame)
       } else {
@@ -231,14 +236,15 @@ export class FadeInImpl implements Renderable {
 }
 &nbsp;
 export interface FadeInProps extends Animatable {
-  start?: Animatable,
-  duration?: number,
+  start?: Animatable
+  duration?: number
+  easing?: (t: number) =&gt; number
   delay?: number
 }
 &nbsp;
 export function FadeIn(props: FadeInProps): Renderable {
-  const { start, duration, delay, ...end } = props
-  return new FadeInImpl(end, start, duration ?? <span class="branch-1 cbranch-no" title="branch not covered" >200,</span> delay ?? 0)
+  const { start, duration, easing, delay, ...end } = props
+  return new FadeInImpl(end, start, easing ?? (v =&gt; v), duration ?? <span class="branch-1 cbranch-no" title="branch not covered" >200,</span> delay ?? 0)
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -247,7 +253,7 @@ export function FadeIn(props: FadeInProps): Renderable {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-13T20:14:40.767Z
+                at 2023-04-13T23:56:22.852Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

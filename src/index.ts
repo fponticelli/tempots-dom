@@ -21,7 +21,6 @@ export { HiddenWhenEmptyImpl, HiddenWhenEmpty } from './components/HiddenWhenEmp
 export { If, type IfProps, Unless, When, type WhenProps } from './components/If'
 export { InnerHTMLImpl, InnerHTML, type InnerHTMLProps } from './components/InnerHTML'
 export { Lifecycle, LifecycleImpl, type LifecycleProps } from './components/Lifecycle'
-export { MatchImpl, Match, type MatchProps } from './components/Match'
 export { NotEmpty, type NotEmptyProps } from './components/NotEmpty'
 export { OnImpl, On, type OnProps } from './components/On'
 export { OnRemove, type OnRemoveProps } from './components/OnRemove'
