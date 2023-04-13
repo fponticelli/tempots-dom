@@ -2,7 +2,7 @@
   "name": "@tempots/dom",
   "main": "index.js",
   "types": "index.d.ts",
-  "version": "5.1.0",
+  "version": "6.0.0",
   "scripts": {
     "watch": "tsc --watch",
     "build": "tsc",
