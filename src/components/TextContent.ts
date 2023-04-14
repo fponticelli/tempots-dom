@@ -4,7 +4,7 @@ import { type DOMContext } from '../dom-context'
 import { type Renderable } from '../renderable'
 
 export class TextContentImpl implements Renderable {
-  constructor(private readonly value: Signal<string> | Signal<string | undefined>) { }
+  constructor (private readonly value: Signal<string> | Signal<string | undefined>) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const el = ctx.getElement()
@@ -26,6 +26,6 @@ export interface TextContentProps {
   value: Signal<string> | Signal<string | undefined>
 }
 
-export function TextContent({ value }: TextContentProps): TextContentImpl {
+export function TextContent ({ value }: TextContentProps): TextContentImpl {
   return new TextContentImpl(value)
 }

@@ -5,7 +5,7 @@ import { type Renderable } from '../renderable'
 import { subscribeToSignal } from './Text'
 
 export class BooleanAttributeImpl implements Renderable {
-  constructor(private readonly name: string, private readonly value: Signal<boolean>) { }
+  constructor (private readonly name: string, private readonly value: Signal<boolean>) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const [set, clear] = ctx.createBooleanAttribute(this.name, this.value.get())
@@ -18,6 +18,6 @@ export interface BooleanAttributeProps {
   value: Signal<boolean>
 }
 
-export function BooleanAttribute({ name, value }: BooleanAttributeProps): Renderable {
+export function BooleanAttribute ({ name, value }: BooleanAttributeProps): Renderable {
   return new BooleanAttributeImpl(name, value)
 }

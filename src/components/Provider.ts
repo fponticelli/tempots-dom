@@ -5,7 +5,7 @@ import { type JSX } from '../jsx'
 import { makeRenderable } from '../jsx-runtime'
 
 export class ProviderImpl<T> implements Renderable {
-  constructor(private readonly mark: ProviderMark<T>, private readonly provider: T, private readonly children: JSX.DOMNode) { }
+  constructor (private readonly mark: ProviderMark<T>, private readonly provider: T, private readonly children: JSX.DOMNode) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const newCtx = ctx.withProvider(this.mark, this.provider)
@@ -24,12 +24,12 @@ export interface ProviderProps<T> {
   children?: JSX.DOMNode
 }
 
-export function Provider<T>({ mark, value, children }: ProviderProps<T>): JSX.DOMNode {
+export function Provider<T> ({ mark, value, children }: ProviderProps<T>): JSX.DOMNode {
   return new ProviderImpl(mark, value, children)
 }
 
 export class ConsumerImpl<T> implements Renderable {
-  constructor(private readonly mark: ProviderMark<T>, private readonly children: (provider: T) => JSX.DOMNode) { }
+  constructor (private readonly mark: ProviderMark<T>, private readonly children: (provider: T) => JSX.DOMNode) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const provider: T = ctx.getProvider(this.mark)
@@ -48,6 +48,6 @@ export interface ConsumerProps<T> {
   children?: (provider: T) => JSX.DOMNode
 }
 
-export function Consumer<T>({ mark, children }: ConsumerProps<T>): JSX.DOMNode {
+export function Consumer<T> ({ mark, children }: ConsumerProps<T>): JSX.DOMNode {
   return new ConsumerImpl(mark, children ?? (() => []))
 }

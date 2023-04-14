@@ -5,7 +5,7 @@ import { subscribeToSignal } from './Text'
 import { type DOMContext } from '../dom-context'
 
 export class ClassNameImpl implements Renderable {
-  constructor(private readonly cls: Signal<string> | Signal<string | undefined>) { }
+  constructor (private readonly cls: Signal<string> | Signal<string | undefined>) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const [set, clear] = ctx.createClass(this.cls.get() ?? '')
@@ -17,6 +17,6 @@ export interface ClassNameProps {
   value: Signal<string> | Signal<string | undefined>
 }
 
-export function ClassName({ value }: ClassNameProps): Renderable {
+export function ClassName ({ value }: ClassNameProps): Renderable {
   return new ClassNameImpl(value)
 }

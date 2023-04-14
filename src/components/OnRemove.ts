@@ -5,6 +5,6 @@ export interface OnRemoveProps {
   clear: Clear
 }
 
-export function OnRemove(props: OnRemoveProps): LifecycleImpl {
-  return new LifecycleImpl(() => { }, (_, removeTree) => props.clear(removeTree))
+export function OnRemove (props: OnRemoveProps): LifecycleImpl {
+  return new LifecycleImpl(() => { }, (_, removeTree) => { props.clear(removeTree) })
 }

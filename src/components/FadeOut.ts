@@ -1,23 +1,23 @@
-import { Clear } from "../clean"
-import { DOMContext } from "../dom-context"
-import { Renderable } from "../renderable"
-import { getComputedAnimatable, Animatable, applyInterpolatedAnimatable } from "./animatable"
+import { type Clear } from '../clean'
+import { type DOMContext } from '../dom-context'
+import { type Renderable } from '../renderable'
+import { getComputedAnimatable, type Animatable, applyInterpolatedAnimatable } from './animatable'
 
 export class FadeOutImpl implements Renderable {
-  constructor(
+  constructor (
     private readonly end: Animatable,
     private readonly duration: number,
     private readonly delay: number
   ) { }
 
-  appendTo(ctx: DOMContext): Clear {
+  appendTo (ctx: DOMContext): Clear {
     const el = ctx.getElement()
     const { duration, end } = this
 
     return ctx.delayClear((removeTree, clear) => {
       const start = getComputedAnimatable(el, this.end)
       const startTime = Date.now() + this.delay
-      function frame() {
+      function frame (): void {
         const now = Date.now()
         if (now < startTime) {
           requestAnimationFrame(frame)
@@ -37,11 +37,11 @@ export class FadeOutImpl implements Renderable {
 }
 
 export interface FadeOutProps extends Animatable {
-  duration?: number,
+  duration?: number
   delay?: number
 }
 
-export function FadeOut(props: FadeOutProps): Renderable {
+export function FadeOut (props: FadeOutProps): Renderable {
   const { duration, delay, ...end } = props
   return new FadeOutImpl(end, duration ?? 200, delay ?? 0)
 }

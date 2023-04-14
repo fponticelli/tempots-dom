@@ -3,7 +3,7 @@ import { type DOMContext } from '../dom-context'
 import { type Clear } from '../clean'
 
 export class HiddenWhenEmptyImpl implements Renderable {
-  appendTo(ctx: DOMContext): Clear {
+  appendTo (ctx: DOMContext): Clear {
     const initial = ctx.getStyle(':empty')
     ctx.setStyle(':empty', 'display: none')
     return (removeTree) => {
@@ -12,6 +12,6 @@ export class HiddenWhenEmptyImpl implements Renderable {
   }
 }
 
-export function HiddenWhenEmpty(): HiddenWhenEmptyImpl {
+export function HiddenWhenEmpty (): HiddenWhenEmptyImpl {
   return new HiddenWhenEmptyImpl()
 }

@@ -13,12 +13,12 @@ export namespace JSX {
 
   export type DOMCSSProperties = {
     [key in keyof Omit<
-      CSSStyleDeclaration,
-      | 'item'
-      | 'setProperty'
-      | 'removeProperty'
-      | 'getPropertyValue'
-      | 'getPropertyPriority'
+    CSSStyleDeclaration,
+    | 'item'
+    | 'setProperty'
+    | 'removeProperty'
+    | 'getPropertyValue'
+    | 'getPropertyPriority'
     >]?: string | number | null | undefined;
   }
   export type AllCSSProperties = Record<string, string | number | null | undefined>
@@ -43,81 +43,81 @@ export namespace JSX {
     Target extends EventTarget
   > = TargetedEvent<Target, CompositionEvent>
   export type TargetedDragEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    DragEvent
+  Target,
+  DragEvent
   >
   export type TargetedFocusEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    FocusEvent
+  Target,
+  FocusEvent
   >
   export type TargetedKeyboardEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    KeyboardEvent
+  Target,
+  KeyboardEvent
   >
   export type TargetedMouseEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    MouseEvent
+  Target,
+  MouseEvent
   >
   export type TargetedPointerEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    PointerEvent
+  Target,
+  PointerEvent
   >
   export type TargetedTouchEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    TouchEvent
+  Target,
+  TouchEvent
   >
   export type TargetedTransitionEvent<
     Target extends EventTarget
   > = TargetedEvent<Target, TransitionEvent>
   export type TargetedUIEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    UIEvent
+  Target,
+  UIEvent
   >
   export type TargetedWheelEvent<Target extends EventTarget> = TargetedEvent<
-    Target,
-    WheelEvent
+  Target,
+  WheelEvent
   >
 
   export type EventHandler<E extends TargetedEvent> = (this: unknown, event: E) => void
 
   export type AnimationEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedAnimationEvent<Target>
+  TargetedAnimationEvent<Target>
   >
   export type ClipboardEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedClipboardEvent<Target>
+  TargetedClipboardEvent<Target>
   >
   export type CompositionEventHandler<
     Target extends EventTarget
   > = EventHandler<TargetedCompositionEvent<Target>>
   export type DragEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedDragEvent<Target>
+  TargetedDragEvent<Target>
   >
   export type FocusEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedFocusEvent<Target>
+  TargetedFocusEvent<Target>
   >
   export type GenericEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedEvent<Target>
+  TargetedEvent<Target>
   >
   export type KeyboardEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedKeyboardEvent<Target>
+  TargetedKeyboardEvent<Target>
   >
   export type MouseEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedMouseEvent<Target>
+  TargetedMouseEvent<Target>
   >
   export type PointerEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedPointerEvent<Target>
+  TargetedPointerEvent<Target>
   >
   export type TouchEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedTouchEvent<Target>
+  TargetedTouchEvent<Target>
   >
   export type TransitionEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedTransitionEvent<Target>
+  TargetedTransitionEvent<Target>
   >
   export type UIEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedUIEvent<Target>
+  TargetedUIEvent<Target>
   >
   export type WheelEventHandler<Target extends EventTarget> = EventHandler<
-    TargetedWheelEvent<Target>
+  TargetedWheelEvent<Target>
   >
 
   export interface DOMAttributes<Target extends EventTarget>
@@ -441,89 +441,89 @@ export namespace JSX {
     readOnly?: VValue<boolean>
     referrerpolicy?:
     VValue<
-      | 'no-referrer'
-      | 'no-referrer-when-downgrade'
-      | 'origin'
-      | 'origin-when-cross-origin'
-      | 'same-origin'
-      | 'strict-origin'
-      | 'strict-origin-when-cross-origin'
-      | 'unsafe-url'
+    | 'no-referrer'
+    | 'no-referrer-when-downgrade'
+    | 'origin'
+    | 'origin-when-cross-origin'
+    | 'same-origin'
+    | 'strict-origin'
+    | 'strict-origin-when-cross-origin'
+    | 'unsafe-url'
     >
     rel?: VValue<string>
     required?: VValue<boolean>
     reversed?: VValue<boolean>
     role?:
     VValue<
-      | 'alert'
-      | 'alertdialog'
-      | 'application'
-      | 'article'
-      | 'banner'
-      | 'button'
-      | 'cell'
-      | 'checkbox'
-      | 'columnheader'
-      | 'combobox'
-      | 'complementary'
-      | 'contentinfo'
-      | 'definition'
-      | 'dialog'
-      | 'directory'
-      | 'document'
-      | 'feed'
-      | 'figure'
-      | 'form'
-      | 'grid'
-      | 'gridcell'
-      | 'group'
-      | 'heading'
-      | 'img'
-      | 'link'
-      | 'list'
-      | 'listbox'
-      | 'listitem'
-      | 'log'
-      | 'main'
-      | 'marquee'
-      | 'math'
-      | 'menu'
-      | 'menubar'
-      | 'menuitem'
-      | 'menuitemcheckbox'
-      | 'menuitemradio'
-      | 'navigation'
-      | 'none'
-      | 'note'
-      | 'option'
-      | 'presentation'
-      | 'progressbar'
-      | 'radio'
-      | 'radiogroup'
-      | 'region'
-      | 'row'
-      | 'rowgroup'
-      | 'rowheader'
-      | 'scrollbar'
-      | 'search'
-      | 'searchbox'
-      | 'separator'
-      | 'slider'
-      | 'spinbutton'
-      | 'status'
-      | 'switch'
-      | 'tab'
-      | 'table'
-      | 'tablist'
-      | 'tabpanel'
-      | 'term'
-      | 'textbox'
-      | 'timer'
-      | 'toolbar'
-      | 'tooltip'
-      | 'tree'
-      | 'treegrid'
-      | 'treeitem'
+    | 'alert'
+    | 'alertdialog'
+    | 'application'
+    | 'article'
+    | 'banner'
+    | 'button'
+    | 'cell'
+    | 'checkbox'
+    | 'columnheader'
+    | 'combobox'
+    | 'complementary'
+    | 'contentinfo'
+    | 'definition'
+    | 'dialog'
+    | 'directory'
+    | 'document'
+    | 'feed'
+    | 'figure'
+    | 'form'
+    | 'grid'
+    | 'gridcell'
+    | 'group'
+    | 'heading'
+    | 'img'
+    | 'link'
+    | 'list'
+    | 'listbox'
+    | 'listitem'
+    | 'log'
+    | 'main'
+    | 'marquee'
+    | 'math'
+    | 'menu'
+    | 'menubar'
+    | 'menuitem'
+    | 'menuitemcheckbox'
+    | 'menuitemradio'
+    | 'navigation'
+    | 'none'
+    | 'note'
+    | 'option'
+    | 'presentation'
+    | 'progressbar'
+    | 'radio'
+    | 'radiogroup'
+    | 'region'
+    | 'row'
+    | 'rowgroup'
+    | 'rowheader'
+    | 'scrollbar'
+    | 'search'
+    | 'searchbox'
+    | 'separator'
+    | 'slider'
+    | 'spinbutton'
+    | 'status'
+    | 'switch'
+    | 'tab'
+    | 'table'
+    | 'tablist'
+    | 'tabpanel'
+    | 'term'
+    | 'textbox'
+    | 'timer'
+    | 'toolbar'
+    | 'tooltip'
+    | 'tree'
+    | 'treegrid'
+    | 'treeitem'
     >
     rows?: VValue<number>
     rowSpan?: VValue<number>
@@ -563,21 +563,21 @@ export namespace JSX {
     // Non-standard Attributes
     autocapitalize?:
     VValue<
-      | 'off'
-      | 'none'
-      | 'on'
-      | 'sentences'
-      | 'words'
-      | 'characters'
+    | 'off'
+    | 'none'
+    | 'on'
+    | 'sentences'
+    | 'words'
+    | 'characters'
     >
     autoCapitalize?:
     VValue<
-      | 'off'
-      | 'none'
-      | 'on'
-      | 'sentences'
-      | 'words'
-      | 'characters'
+    | 'off'
+    | 'none'
+    | 'on'
+    | 'sentences'
+    | 'words'
+    | 'characters'
     >
     disablePictureInPicture?: VValue<boolean>
     results?: VValue<number>
@@ -608,20 +608,20 @@ export namespace JSX {
     accumulate?: VValue<'none' | 'sum' | undefined>
     additive?: VValue<'replace' | 'sum' | undefined>
     alignmentBaseline?: VValue<
-      | 'auto'
-      | 'baseline'
-      | 'before-edge'
-      | 'text-before-edge'
-      | 'middle'
-      | 'central'
-      | 'after-edge'
-      | 'text-after-edge'
-      | 'ideographic'
-      | 'alphabetic'
-      | 'hanging'
-      | 'mathematical'
-      | 'inherit'
-      | undefined
+    | 'auto'
+    | 'baseline'
+    | 'before-edge'
+    | 'text-before-edge'
+    | 'middle'
+    | 'central'
+    | 'after-edge'
+    | 'text-after-edge'
+    | 'ideographic'
+    | 'alphabetic'
+    | 'hanging'
+    | 'mathematical'
+    | 'inherit'
+    | undefined
     >
     allowReorder?: VValue<'no' | 'yes' | undefined>
     alphabetic?: VValue<number> | VValue<number>

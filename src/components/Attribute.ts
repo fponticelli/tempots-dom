@@ -5,7 +5,7 @@ import { type Renderable } from '../renderable'
 import { subscribeToSignal } from './Text'
 
 export class AttributeImpl implements Renderable {
-  constructor(private readonly name: string, private readonly value: Signal<string>) { }
+  constructor (private readonly name: string, private readonly value: Signal<string>) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const [set, clear] = ctx.createAttribute(this.name, this.value.get())
@@ -18,6 +18,6 @@ export interface AttributeProps {
   value: Signal<string>
 }
 
-export function Attribute({ name, value }: AttributeProps): Renderable {
+export function Attribute ({ name, value }: AttributeProps): Renderable {
   return new AttributeImpl(name, value)
 }

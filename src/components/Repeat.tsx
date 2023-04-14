@@ -1,26 +1,36 @@
-import { Prop, Signal } from '../prop'
+/** @jsxImportSource .. */
+import { Prop, type Signal } from '../prop'
 import { type Clear } from '../clean'
 import { type DOMContext } from '../dom-context'
 import { type Renderable } from '../renderable'
 import { Fragment } from './Fragment'
-import { JSX } from '../jsx'
+import { type JSX } from '../jsx'
 import { makeRenderable } from '../jsx-runtime'
+import { OneOf } from './OneOf'
 
-export interface SeparatorProps {
-  first: boolean
-  last: boolean
-  index: number
+export interface PositionProps {
+  readonly first: boolean
+  readonly last: boolean
+  readonly index: number
+}
+
+export function makePosition (index: number, length: number): PositionProps {
+  return {
+    first: index === 0,
+    last: index === length - 1,
+    index
+  }
 }
 
 export class RepeatImpl implements Renderable {
-  constructor(
+  constructor (
     private readonly times: Signal<number>,
-    private readonly children: (index: number) => JSX.DOMNode,
-    private readonly separator?: (sep: Signal<SeparatorProps>) => JSX.DOMNode
+    private readonly children: (pos: Signal<PositionProps>) => JSX.DOMNode,
+    private readonly separator?: (sep: Signal<PositionProps>) => JSX.DOMNode
   ) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
-    if (!this.separator) {
+    if (this.separator == null) {
       return this.appendToWithoutSeparator(ctx)
     } else {
       return this.appendToWithSeparator(ctx, this.separator)
@@ -31,17 +41,25 @@ export class RepeatImpl implements Renderable {
     const newCtx = ctx.makeReference()
     const count = this.times.get()
     const clears = new Array<Clear>(count)
+    const positions = new Array<Prop<PositionProps>>(count)
     for (let i = 0; i < count; i++) {
-      clears[i] = makeRenderable(this.children(i)).appendTo(newCtx)
+      positions[i] = new Prop(makePosition(i, count))
+      clears[i] = makeRenderable(this.children(positions[i])).appendTo(newCtx)
     }
     const cancel = this.times.subscribe(
       (newCount) => {
         while (newCount < clears.length) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           clears.pop()!(true)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          positions.pop()!.clean()
+        }
+        for (let i = 0; i < positions.length; i++) {
+          positions[i].set(makePosition(i, newCount))
         }
         for (let i = clears.length; i < newCount; i++) {
-          clears[i] = makeRenderable(this.children(i)).appendTo(newCtx)
+          positions[i] = new Prop(makePosition(i, count))
+          clears[i] = makeRenderable(this.children(positions[i])).appendTo(newCtx)
         }
       }
     )
@@ -54,14 +72,16 @@ export class RepeatImpl implements Renderable {
     }
   }
 
-  readonly appendToWithSeparator = (ctx: DOMContext, separator: (sep: Signal<SeparatorProps>) => JSX.DOMNode): Clear => {
+  readonly appendToWithSeparator = (ctx: DOMContext, separator: (sep: Signal<PositionProps>) => JSX.DOMNode): Clear => {
     const newCtx = ctx.makeReference()
     const count = this.times.get()
-    const separatorProps = new Array<Prop<SeparatorProps>>(Math.max(0, count - 1))
+    const separatorProps = new Array<Prop<PositionProps>>(Math.max(0, count - 1))
     const separatorClears = new Array<Clear>(Math.max(0, count - 1))
     const clears = new Array<Clear>(count)
+    const positions = new Array<Prop<PositionProps>>(count)
     for (let i = 0; i < count; i++) {
-      clears[i] = makeRenderable(this.children(i)).appendTo(newCtx)
+      positions[i] = new Prop(makePosition(i, count))
+      clears[i] = makeRenderable(this.children(positions[i])).appendTo(newCtx)
       if (i < count - 1) {
         separatorProps[i] = Prop.of({
           first: i === 0,
@@ -76,12 +96,17 @@ export class RepeatImpl implements Renderable {
         while (newCount < clears.length) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           clears.pop()!(true)
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          positions.pop()!.clean()
           if (separatorClears.length > 0) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             separatorClears.pop()!(true)
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             separatorProps.pop()!.clean()
           }
+        }
+        for (let i = 0; i < positions.length; i++) {
+          positions[i].set(makePosition(i, newCount))
         }
         for (let i = 0; i < separatorProps.length; i++) {
           separatorProps[i].set({
@@ -91,7 +116,8 @@ export class RepeatImpl implements Renderable {
           })
         }
         for (let i = clears.length; i < newCount; i++) {
-          clears[i] = makeRenderable(this.children(i)).appendTo(newCtx)
+          positions[i] = new Prop(makePosition(i, count))
+          clears[i] = makeRenderable(this.children(positions[i])).appendTo(newCtx)
           if (i < newCount - 1) {
             separatorProps[i] = Prop.of({
               first: i === 0,
@@ -116,11 +142,11 @@ export class RepeatImpl implements Renderable {
 
 export interface RepeatProps {
   times: Signal<number>
-  children?: (index: number) => JSX.DOMNode
-  separator?: (sep: Signal<SeparatorProps>) => JSX.DOMNode
+  children?: (pos: Signal<PositionProps>) => JSX.DOMNode
+  separator?: (sep: Signal<PositionProps>) => JSX.DOMNode
 }
 
-export function Repeat(props: RepeatProps): Renderable {
+export function Repeat (props: RepeatProps): Renderable {
   return new RepeatImpl(
     props.times,
     props.children ?? (() => Fragment({ children: [] })),
@@ -128,16 +154,21 @@ export function Repeat(props: RepeatProps): Renderable {
   )
 }
 
-export function conjuctions(other: JSX.DOMNode, lastConjunction?: JSX.DOMNode, firstConjunction?: JSX.DOMNode): (sep: Signal<SeparatorProps>) => JSX.DOMNode {
-  return (sep: Signal<SeparatorProps>) => {
-    return sep.map(({ first, last }) => {
-      if (last) {
-        return lastConjunction ?? other
-      } else if (first) {
-        return firstConjunction ?? other
-      } else {
-        return other
-      }
-    })
+export function conjuctions (other: JSX.DOMNode, lastConjunction?: JSX.DOMNode, firstConjunction?: JSX.DOMNode): (sep: Signal<PositionProps>) => JSX.DOMNode {
+  return (sep: Signal<PositionProps>) => {
+    return <OneOf
+      match={sep.map(({ first, last }) => {
+        if (last) {
+          return { last: true }
+        } else if (first) {
+          return { first: true }
+        } else {
+          return { other: true }
+        }
+      })}
+      first={() => firstConjunction ?? other}
+      last={() => lastConjunction ?? other}
+      other={() => other}
+      />
   }
 }

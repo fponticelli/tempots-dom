@@ -55,19 +55,19 @@ export interface Animatable {
 
 export type ColorChannels = [number, number, number, number, 'rgba' | 'hex' | 'hsla']
 
-export function parseColorChannels(color: string): ColorChannels {
+export function parseColorChannels (color: string): ColorChannels {
   let match = color.match(/rgba?\((\d+), (\d+), (\d+)(, (\d+))?\)/)
-  if (match) {
+  if (match != null) {
     return [
       Number(match[1]),
       Number(match[2]),
       Number(match[3]),
-      match[4] ? Number(match[5]) : 1,
+      match[4] != null ? Number(match[5]) : 1,
       'rgba'
     ]
   } else {
     match = color.match(/#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/)
-    if (match) {
+    if (match != null) {
       return [
         parseInt(match[1], 16),
         parseInt(match[2], 16),
@@ -77,12 +77,12 @@ export function parseColorChannels(color: string): ColorChannels {
       ]
     } else {
       match = color.match(/hsla?\((\d+), (\d+)%?, (\d+)%?(, (\d+))?\)/)
-      if (match) {
+      if (match != null) {
         return [
           Number(match[1]),
           Number(match[2]),
           Number(match[3]),
-          match[4] ? Number(match[5]) : 1,
+          match[4] != null ? Number(match[5]) : 1,
           'hsla'
         ]
       }
@@ -100,11 +100,11 @@ export interface BoxShadow {
   color: string
 }
 
-function parseBoxShadow(cssString: string): BoxShadow {
-  const boxShadowRegex = /^(inset\s)?(-?\d+)([a-zA-Z]*)(\s+)(-?\d+)([a-zA-Z]*)(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+)([a-zA-Z0-9(),.]+)$/i;
-  const match = cssString.match(boxShadowRegex);
+function parseBoxShadow (cssString: string): BoxShadow {
+  const boxShadowRegex = /^(inset\s)?(-?\d+)([a-zA-Z]*)(\s+)(-?\d+)([a-zA-Z]*)(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+(-?\d+)([a-zA-Z]*))?(?:\s+)([a-zA-Z0-9(),.]+)$/i
+  const match = cssString.match(boxShadowRegex)
 
-  if (!match) {
+  if (match == null) {
     return {
       inset: false,
       x: 0,
@@ -112,13 +112,13 @@ function parseBoxShadow(cssString: string): BoxShadow {
       blur: 0,
       spread: 0,
       color: 'rgba(0, 0, 0, 0)'
-    };
+    }
   }
 
-  const [, inset, x, , , y, , blur, , spread, , color] = match;
+  const [, inset, x, , , y, , blur, , spread, , color] = match
 
-  const parsedBlur = blur ? parseInt(blur, 10) : 0;
-  const parsedSpread = spread ? parseInt(spread, 10) : 0;
+  const parsedBlur = blur != null ? parseInt(blur, 10) : 0
+  const parsedSpread = spread != null ? parseInt(spread, 10) : 0
 
   return {
     inset: !!inset,
@@ -127,15 +127,15 @@ function parseBoxShadow(cssString: string): BoxShadow {
     blur: parsedBlur,
     spread: parsedSpread,
     color
-  };
+  }
 }
 
-function boxShadowToString(shadow: BoxShadow): string {
-  const { inset, x, y, blur, spread, color } = shadow;
-  return `${inset ? 'inset ' : ''}${x}px ${y}px ${blur}px ${spread}px ${color}`;
+function boxShadowToString (shadow: BoxShadow): string {
+  const { inset, x, y, blur, spread, color } = shadow
+  return `${inset ? 'inset ' : ''}${x}px ${y}px ${blur}px ${spread}px ${color}`
 }
 
-export function colorChannelsToString(channels: ColorChannels): string {
+export function colorChannelsToString (channels: ColorChannels): string {
   if (channels[4] === 'rgba') {
     return `rgba(${channels[0]}, ${channels[1]}, ${channels[2]}, ${channels[3]})`
   } else if (channels[4] === 'hex') {
@@ -146,9 +146,9 @@ export function colorChannelsToString(channels: ColorChannels): string {
   return ''
 }
 
-export function interpolateColor(startColor: string, endColor: string): (t: number) => string {
+export function interpolateColor (startColor: string, endColor: string): (t: number) => string {
   const [startR, startG, startB, startA, startType] = parseColorChannels(startColor)
-  const [endR, endG, endB, endA, endType] = parseColorChannels(endColor)
+  const [endR, endG, endB, endA] = parseColorChannels(endColor)
   return (t: number) => {
     const r = startR + (endR - startR) * t
     const g = startG + (endG - startG) * t
@@ -158,20 +158,20 @@ export function interpolateColor(startColor: string, endColor: string): (t: numb
   }
 }
 
-export function interpolateShadow(startShadow: string, endShadow: string): (t: number) => string {
-  const start = parseBoxShadow(startShadow);
-  const end = parseBoxShadow(endShadow);
+export function interpolateShadow (startShadow: string, endShadow: string): (t: number) => string {
+  const start = parseBoxShadow(startShadow)
+  const end = parseBoxShadow(endShadow)
   return (t: number) => {
-    const x = start.x + (end.x - start.x) * t;
-    const y = start.y + (end.y - start.y) * t;
-    const blur = start.blur + (end.blur - start.blur) * t;
-    const spread = start.spread + (end.spread - start.spread) * t;
-    const color = getColorInterpolation(start.color, end.color)(t);
-    return boxShadowToString({ inset: start.inset, x, y, blur, spread, color });
-  };
+    const x = start.x + (end.x - start.x) * t
+    const y = start.y + (end.y - start.y) * t
+    const blur = start.blur + (end.blur - start.blur) * t
+    const spread = start.spread + (end.spread - start.spread) * t
+    const color = getColorInterpolation(start.color, end.color)(t)
+    return boxShadowToString({ inset: start.inset, x, y, blur, spread, color })
+  }
 }
 
-export function getComputedAnimatableProp(styles: CSSStyleDeclaration, key: keyof Animatable): Animatable[typeof key] {
+export function getComputedAnimatableProp (styles: CSSStyleDeclaration, key: keyof Animatable): Animatable[typeof key] {
   if (key === 'translateX') {
     return new WebKitCSSMatrix(styles.transform).m41
   } else if (key === 'translateY') {
@@ -214,7 +214,7 @@ export function getComputedAnimatableProp(styles: CSSStyleDeclaration, key: keyo
   return Number(styles.getPropertyValue(key))
 }
 
-export function getComputedAnimatable(el: HTMLElement, styles: Animatable): Animatable {
+export function getComputedAnimatable (el: HTMLElement, styles: Animatable): Animatable {
   const result: Animatable = {}
   const computedStyles = getComputedStyle(el)
   for (const [key, value] of Object.entries(styles)) {
@@ -226,7 +226,7 @@ export function getComputedAnimatable(el: HTMLElement, styles: Animatable): Anim
   return result
 }
 
-export function applyAnimatableProp(el: HTMLElement, key: keyof Animatable, value: Animatable[typeof key]): void {
+export function applyAnimatableProp (el: HTMLElement, key: keyof Animatable, value: Animatable[typeof key]): void {
   if (value == null) return
 
   if (key === 'translateX') {
@@ -273,24 +273,25 @@ export function applyAnimatableProp(el: HTMLElement, key: keyof Animatable, valu
 
 const interpolationCache = new Map<string, (progress: number) => string>()
 
-function getInterpolate(from: string, to: string, type: string) {
-  if (interpolationCache.has(type + ":" + from + to)) {
+function getInterpolate (from: string, to: string, type: string): (progress: number) => string {
+  if (interpolationCache.has(type + ':' + from + to)) {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     return interpolationCache.get(from + to)!
   }
   const f = interpolateColor(from, to)
-  interpolationCache.set(type + ":" + from + to, f)
+  interpolationCache.set(type + ':' + from + to, f)
   return f
 }
 
-function getColorInterpolation(from: string, to: string) {
+function getColorInterpolation (from: string, to: string): (progress: number) => string {
   return getInterpolate(from, to, 'c')
 }
 
-function getShadowInterpolation(from: string, to: string) {
+function getShadowInterpolation (from: string, to: string): (progress: number) => string {
   return getInterpolate(from, to, 's')
 }
 
-export function applyInterpolatedAnimatableProp(el: HTMLElement, key: keyof Animatable, from: Animatable[typeof key], to: Animatable[typeof key], progress: number): void {
+export function applyInterpolatedAnimatableProp (el: HTMLElement, key: keyof Animatable, from: Animatable[typeof key], to: Animatable[typeof key], progress: number): void {
   if (from != null && to != null) {
     if (typeof from === 'number' && typeof to === 'number') {
       const value = from + (to - from) * progress
@@ -305,7 +306,7 @@ export function applyInterpolatedAnimatableProp(el: HTMLElement, key: keyof Anim
   }
 }
 
-export function applyInterpolatedAnimatable(el: HTMLElement, from: Animatable, to: Animatable, progress: number): void {
+export function applyInterpolatedAnimatable (el: HTMLElement, from: Animatable, to: Animatable, progress: number): void {
   el.style.transform = ''
   el.style.filter = ''
   for (const [key, value] of Object.entries(to)) {
@@ -314,7 +315,7 @@ export function applyInterpolatedAnimatable(el: HTMLElement, from: Animatable, t
   }
 }
 
-export function applyAnimatable(el: HTMLElement, styles: Animatable): void {
+export function applyAnimatable (el: HTMLElement, styles: Animatable): void {
   el.style.transform = ''
   el.style.filter = ''
   for (const [key, value] of Object.entries(styles)) {

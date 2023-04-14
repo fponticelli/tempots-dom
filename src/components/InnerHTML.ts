@@ -4,7 +4,7 @@ import { type DOMContext } from '../dom-context'
 import { type Renderable } from '../renderable'
 
 export class InnerHTMLImpl implements Renderable {
-  constructor(private readonly html: Signal<string> | Signal<string | undefined>) { }
+  constructor (private readonly html: Signal<string> | Signal<string | undefined>) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const el = ctx.getElement()
@@ -26,6 +26,6 @@ export interface InnerHTMLProps {
   html: Signal<string> | Signal<string | undefined>
 }
 
-export function InnerHTML({ html }: InnerHTMLProps): InnerHTMLImpl {
+export function InnerHTML ({ html }: InnerHTMLProps): InnerHTMLImpl {
   return new InnerHTMLImpl(html)
 }

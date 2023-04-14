@@ -1,4 +1,4 @@
-function shouldNotApplyCallback(
+function shouldNotApplyCallback (
   e: MouseEvent,
   checkExtension: boolean,
   checkExternalUrl: boolean

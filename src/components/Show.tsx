@@ -14,7 +14,7 @@ export type Condition<T> =
   | Signal<T>
 
 export class ShowImpl<T> implements Renderable {
-  constructor(private readonly on: Condition<T>, private readonly otherwise: JSX.DOMNode, private readonly children: (value: Signal<NonNullable<T>>) => JSX.DOMNode) { }
+  constructor (private readonly on: Condition<T>, private readonly otherwise: JSX.DOMNode, private readonly children: (value: Signal<NonNullable<T>>) => JSX.DOMNode) { }
 
   readonly appendTo = (ctx: DOMContext): Clear => {
     const condition = this.on.map(v => v != null)
@@ -30,6 +30,6 @@ export interface ShowProps<T> {
   children?: (value: Signal<NonNullable<T>>) => JSX.DOMNode
 }
 
-export function Show<T>({ when, children, otherwise }: ShowProps<T>): ShowImpl<T> {
+export function Show<T> ({ when, children, otherwise }: ShowProps<T>): ShowImpl<T> {
   return new ShowImpl(when, otherwise, children ?? (() => <></>))
 }

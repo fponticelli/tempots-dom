@@ -30,7 +30,7 @@ export class Signal<T> {
     others: ArgsToSignals<Args>,
     f: (...args: Args) => Out
   ): Signal<Out> {
-    function getValues(others: Array<Prop<unknown>>): Args {
+    function getValues (others: Array<Prop<unknown>>): Args {
       return others.map(other => other.get()) as Args
     }
     const prop = new Prop(f(...getValues(others)))
@@ -45,7 +45,7 @@ export class Signal<T> {
   public readonly [$isSignal] = true
 
   protected readonly _listeners: Array<(value: T) => void> = []
-  constructor(protected _value: T) { }
+  constructor (protected _value: T) { }
   readonly get = (): T => {
     return this._value
   }
