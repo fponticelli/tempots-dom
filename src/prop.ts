@@ -209,6 +209,23 @@ export class Prop<T> extends Signal<T> {
     return new Prop(value)
   }
 
+  static ofStorage<T>(key: string, defaultValue: T, store: { getItem: (key: string) => string | null, setItem: (key: string, value: string) => void }, serialize: (v: T) => string = JSON.stringify, deserilize: (v: string) => T = JSON.parse): Prop<T> {
+    const initialValue = store.getItem(key)
+    const prop = new Prop<T>(initialValue !== null ? deserilize(initialValue) : defaultValue)
+    prop.subscribe((value) => {
+      store.setItem(key, serialize(value))
+    })
+    return prop
+  }
+
+  static ofLocalStorage<T>(key: string, defaultValue: T, serialize: (v: T) => string = JSON.stringify, deserilize: (v: string) => T = JSON.parse): Prop<T> {
+    return Prop.ofStorage(key, defaultValue, window.localStorage, serialize, deserilize)
+  }
+
+  static ofSessionStorage<T>(key: string, defaultValue: T, serialize: (v: T) => string = JSON.stringify, deserilize: (v: string) => T = JSON.parse): Prop<T> {
+    return Prop.ofStorage(key, defaultValue, window.sessionStorage, serialize, deserilize)
+  }
+
   public readonly [$isProp] = true
 
   readonly set = (value: T): void => {

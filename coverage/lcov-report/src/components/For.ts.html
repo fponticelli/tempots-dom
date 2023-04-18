@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">31.57% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>19/19</span>
+                <span class='fraction'>6/19</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>0/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>15/15</span>
+                <span class='fraction'>6/15</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -114,10 +114,10 @@
 <a name='L49'></a><a href='#L49'>49</a>
 <a name='L50'></a><a href='#L50'>50</a>
 <a name='L51'></a><a href='#L51'>51</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,18 +126,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">107x</span>
-<span class="cline-any cline-yes">30x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -148,15 +144,19 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">33x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">18x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -176,14 +176,14 @@ export interface ForProps&lt;T&gt; {
 }
 &nbsp;
 // &lt;For of={values} separator={() =&gt; ", "}&gt;{(value) =&gt; &lt;span&gt;{value}&lt;/span&gt;}&lt;/For&gt;
-export function For&lt;T&gt; ({ of, children: render, separator }: ForProps&lt;T&gt;): JSX.DOMNode {
-  const times = of.map(v =&gt; v.length)
-  return new RepeatImpl(
+export function <span class="fstat-no" title="function not covered" >For&lt;</span>T&gt; ({ of, children: render, separator }: ForProps&lt;T&gt;): JSX.DOMNode {
+  const times = <span class="cstat-no" title="statement not covered" >of.map(<span class="fstat-no" title="function not covered" >v </span>=&gt; <span class="cstat-no" title="statement not covered" >v.length)</span></span>
+<span class="cstat-no" title="statement not covered" >  return new RepeatImpl(</span>
     times,
-    (pos: Signal&lt;PositionProps&gt;) =&gt; {
+<span class="fstat-no" title="function not covered" >    (p</span>os: Signal&lt;PositionProps&gt;) =&gt; {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const value = of.combine(pos, (arr, { index }) =&gt; arr.at(index)!)
-      return new FragmentImpl([
+      const value = <span class="cstat-no" title="statement not covered" >of.combine(pos, <span class="fstat-no" title="function not covered" >(a</span>rr, { index }) =&gt; <span class="cstat-no" title="statement not covered" >arr.at(index)!)</span></span>
+<span class="cstat-no" title="statement not covered" >      return new FragmentImpl([</span>
         makeRenderable(render?.(value as Signal&lt;T&gt;, pos)),
         OnRemove({ clear: value.clean })
       ])
@@ -198,15 +198,15 @@ export interface ForWithPositionProps&lt;T&gt; {
   children?: (data: Signal&lt;{ value: T, pos: PositionProps }&gt;) =&gt; JSX.DOMNode
 }
 &nbsp;
-export function ForWithPosition&lt;T&gt; ({ of, children: render, separator }: ForWithPositionProps&lt;T&gt;): JSX.DOMNode {
-  const times = of.map(v =&gt; v.length)
-  return new RepeatImpl(
+export function <span class="fstat-no" title="function not covered" >ForWithPosition&lt;</span>T&gt; ({ of, children: render, separator }: ForWithPositionProps&lt;T&gt;): JSX.DOMNode {
+  const times = <span class="cstat-no" title="statement not covered" >of.map(<span class="fstat-no" title="function not covered" >v </span>=&gt; <span class="cstat-no" title="statement not covered" >v.length)</span></span>
+<span class="cstat-no" title="statement not covered" >  return new RepeatImpl(</span>
     times,
-    (pos: Signal&lt;PositionProps&gt;) =&gt; {
+<span class="fstat-no" title="function not covered" >    (p</span>os: Signal&lt;PositionProps&gt;) =&gt; {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const value = of.combine(pos, (arr, { index }) =&gt; arr.at(index)!)
-      return new FragmentImpl([
-        makeRenderable(render?.(value.combine(pos, (v, p) =&gt; ({ value: v as T, pos: p })))),
+      const value = <span class="cstat-no" title="statement not covered" >of.combine(pos, <span class="fstat-no" title="function not covered" >(a</span>rr, { index }) =&gt; <span class="cstat-no" title="statement not covered" >arr.at(index)!)</span></span>
+<span class="cstat-no" title="statement not covered" >      return new FragmentImpl([</span>
+        makeRenderable(render?.(value.combine(pos, <span class="fstat-no" title="function not covered" >(v</span>, p) =&gt; (<span class="cstat-no" title="statement not covered" >{ value: v as T, pos: p })</span>))),
         OnRemove({ clear: value.clean })
       ])
     },
@@ -220,7 +220,7 @@ export function ForWithPosition&lt;T&gt; ({ of, children: render, separator }: F
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-14T23:26:05.807Z
+                at 2023-04-16T01:41:15.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

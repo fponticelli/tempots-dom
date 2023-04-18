@@ -89,7 +89,7 @@ export type OneOfUnionProps<T extends { [_ in K]: string }, K extends string> = 
 export function OneOfUnion<T extends { [_ in K]: string }, K extends string> (props: OneOfUnionProps<T, K>): JSX.DOMNode {
   const { match, using, ...cases } = props
   return new OneOfImpl(
-    match.map(t => ({ [t[using]]: t })),
+    match.map(t => ({ [t != null ? t[using] : '']: t })),
     cases as any
   )
 }

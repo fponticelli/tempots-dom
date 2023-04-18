@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">28.57% </span>
+                <span class="strong">92.85% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/14</span>
+                <span class='fraction'>13/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>1/2</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">80% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/5</span>
+                <span class='fraction'>4/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/10</span>
+                <span class='fraction'>10/10</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -104,8 +104,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -113,16 +113,14 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -130,8 +128,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/** @jsxImportSource .. */
 import { type Signal } from '../prop'
@@ -149,13 +149,13 @@ export type Condition&lt;T&gt; =
   | Signal&lt;T&gt;
 &nbsp;
 export class ShowImpl&lt;T&gt; implements Renderable {
-<span class="fstat-no" title="function not covered" >  constructor (private readonly <span class="cstat-no" title="statement not covered" >o</span>n: Condition&lt;T&gt;,</span> private readonly <span class="cstat-no" title="statement not covered" >otherwise: JSX.DOMNode,</span> private readonly <span class="cstat-no" title="statement not covered" >children: (value: Signal&lt;NonNullable&lt;T&gt;&gt;) =&gt; JSX.DOMNode)</span> { }
+  constructor (private readonly on: Condition&lt;T&gt;, private readonly otherwise: JSX.DOMNode, private readonly children: (value: Signal&lt;NonNullable&lt;T&gt;&gt;) =&gt; JSX.DOMNode) { }
 &nbsp;
-  readonly appendTo = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >(c</span>tx: DOMContext): Clear =&gt; {</span>
-    const condition = <span class="cstat-no" title="statement not covered" >this.on.map(<span class="fstat-no" title="function not covered" >v </span>=&gt; <span class="cstat-no" title="statement not covered" >v != null)</span></span>
+  readonly appendTo = (ctx: DOMContext): Clear =&gt; {
+    const condition = this.on.map(v =&gt; v != null)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const el = <span class="cstat-no" title="statement not covered" >makeRenderable(&lt;If is={condition} then={this.children(this.on as any)} otherwise={this.otherwise} /&gt;)</span>
-<span class="cstat-no" title="statement not covered" >    return el.appendTo(ctx)</span>
+    const el = makeRenderable(&lt;If is={condition} then={this.children(this.on as any)} otherwise={this.otherwise} /&gt;)
+    return el.appendTo(ctx)
   }
 }
 &nbsp;
@@ -165,8 +165,8 @@ export interface ShowProps&lt;T&gt; {
   children?: (value: Signal&lt;NonNullable&lt;T&gt;&gt;) =&gt; JSX.DOMNode
 }
 &nbsp;
-export function <span class="fstat-no" title="function not covered" >Show&lt;</span>T&gt; ({ when, children, otherwise }: ShowProps&lt;T&gt;): ShowImpl&lt;T&gt; {
-<span class="cstat-no" title="statement not covered" >  return new ShowImpl(when, otherwise, children ?? (<span class="fstat-no" title="function not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >&lt;&gt;&lt;/&gt;)</span>)</span>
+export function Show&lt;T&gt; ({ when, children, otherwise }: ShowProps&lt;T&gt;): ShowImpl&lt;T&gt; {
+  return new ShowImpl(when, otherwise, children ?? (<span class="fstat-no" title="function not covered" ><span class="branch-1 cbranch-no" title="branch not covered" >() =</span>&gt; <span class="cstat-no" title="statement not covered" >&lt;&gt;&lt;/&gt;)</span></span>)
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -175,7 +175,7 @@ export function <span class="fstat-no" title="function not covered" >Show&lt;</s
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-04-14T23:26:05.807Z
+                at 2023-04-16T01:41:15.339Z
             </div>
         <script src="../../prettify.js"></script>
         <script>
