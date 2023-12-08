@@ -27,16 +27,16 @@ export class Signal<T> {
    * Combines many into one using a merging function
    */
   static combine<Args extends [...unknown[]], Out>(
-    others: ArgsToSignals<Args>,
+    signals: ArgsToSignals<Args>,
     f: (...args: Args) => Out
   ): Signal<Out> {
     function getValues (others: Array<Prop<unknown>>): Args {
       return others.map(other => other.get()) as Args
     }
-    const prop = new Prop(f(...getValues(others)))
-    others.forEach((other: Prop<unknown>) => {
+    const prop = new Prop(f(...getValues(signals)))
+    signals.forEach((other: Prop<unknown>) => {
       other.subscribe(() => {
-        prop.set(f(...getValues(others)))
+        prop.set(f(...getValues(signals)))
       })
     })
     return prop
@@ -71,6 +71,14 @@ export class Signal<T> {
       signal.clean()
       signal = f(value)
       signal.subscribe(value => { prop.set(value) })
+    })
+    return prop
+  }
+
+  readonly flatMapProp = <V>(f: (value: T) => Prop<V>): Prop<V> => {
+    const prop = f(this._value)
+    this.subscribe(value => {
+      prop.set(f(value).get());
     })
     return prop
   }
@@ -149,7 +157,9 @@ export class Signal<T> {
   }
 
   readonly deriveProp = (): Prop<T> => {
-    return new Prop(this._value)
+    const prop = new Prop(this._value)
+    this.feed(prop);
+    return prop;
   }
 
   readonly clean = (): void => {

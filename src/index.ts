@@ -29,7 +29,7 @@ export { OneOfImpl, OneOf, type OneOfProps, OneOfLiteral, type OneOfLiteralProps
 export { PortalImpl, Portal, type PortalProps } from './components/Portal'
 export { PropertyImpl, Property, type PropertyProps } from './components/Property'
 export { RepeatImpl, Repeat, type RepeatProps, conjuctions, type PositionProps } from './components/Repeat'
-export { ShowImpl, Show, type ShowProps } from './components/Show'
+export { Show, type ShowProps } from './components/Show'
 export { TextImpl, Text, type TextProps } from './components/Text'
 export { TextContentImpl, TextContent, type TextContentProps } from './components/TextContent'
 
