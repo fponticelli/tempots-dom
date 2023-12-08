@@ -9,7 +9,7 @@ function shouldNotApplyCallback (
   }
   if (target == null) return true
 
-  const anchor = target
+  const anchor = target as HTMLAnchorElement;
 
   // Check for modifier keys and non-left-button, which indicate the user wants to control
   // navigation
@@ -19,7 +19,7 @@ function shouldNotApplyCallback (
 
   // If there is a target and it is not `_self` then we take this
   // as a signal that it doesn't want to be intercepted.
-  if (anchor.target !== '_self') {
+  if (anchor.target !== '_self' && anchor.target !== '') {
     return true
   }
 

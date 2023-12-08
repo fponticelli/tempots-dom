@@ -9,6 +9,7 @@ export { handleAnchorClick } from './helpers/handle-anchor-click'
 export { type Animatable, applyInterpolatedAnimatableProp, applyInterpolatedAnimatable, applyAnimatableProp, applyAnimatable, getComputedAnimatableProp, getComputedAnimatable } from './components/animatable'
 
 export { AttributeImpl, Attribute, type AttributeProps } from './components/Attribute'
+export { Autofocus } from './components/Autofocus'
 export { BooleanAttributeImpl, BooleanAttribute, type BooleanAttributeProps } from './components/BooleanAttribute'
 export { ClassNameImpl, ClassName, type ClassNameProps } from './components/ClassName'
 export { ConsumerImpl, Consumer, type ConsumerProps, ProviderImpl, Provider, type ProviderProps } from './components/Provider'
