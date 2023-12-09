@@ -23,6 +23,10 @@ export class Signal<T> {
     return s != null && typeof s.get === 'function' && typeof s.subscribe === 'function'
   }
 
+  static unwrap<T>(value: Value<T>): T {
+    return (Signal.isSignal(value) ? value.get() : value) as T
+  }
+
   /**
    * Combines many into one using a merging function
    */
@@ -76,10 +80,15 @@ export class Signal<T> {
   }
 
   readonly flatMapProp = <V>(f: (value: T) => Prop<V>): Prop<V> => {
-    const prop = f(this._value)
+    let tprop = f(this._value)
+    const prop = Prop.of(tprop.get())
+    let cancel = prop.feed(tprop);
     this.subscribe(value => {
-      prop.set(f(value).get());
-    })
+      cancel();
+      tprop = f(value);
+      prop.set(tprop.get());
+      cancel = prop.feed(tprop);
+    });
     return prop
   }
 
@@ -151,9 +160,8 @@ export class Signal<T> {
     return prop
   }
 
-  readonly feed = (prop: Prop<T>): Prop<T> => {
-    this.subscribe(value => { prop.set(value) })
-    return prop
+  readonly feed = (prop: Prop<T>): () => void => {
+    return this.subscribe(value => { prop.set(value) });
   }
 
   readonly deriveProp = (): Prop<T> => {
