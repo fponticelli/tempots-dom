@@ -50,9 +50,9 @@ export class RepeatImpl implements Renderable {
       (newCount) => {
         while (newCount < clears.length) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          clears.pop()!(true)
+          clears.pop()?.(true)
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          positions.pop()!.clean()
+          positions.pop()?.clean()
         }
         for (let i = 0; i < positions.length; i++) {
           positions[i].set(makePosition(i, newCount))
@@ -95,16 +95,16 @@ export class RepeatImpl implements Renderable {
       (newCount) => {
         while (newCount < clears.length) {
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          clears.pop()!(true)
+          clears.pop()?.(true)
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          positions.pop()!.clean()
+          positions.pop()?.clean()
           if (separatorClears.length > 0) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            separatorClears.pop()!(true)
+            separatorClears.pop()?.(true)
           }
           if (separatorProps.length > 0) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            separatorProps.pop()!.clean()
+            separatorProps.pop()?.clean()
           }
         }
         for (let i = 0; i < positions.length; i++) {
