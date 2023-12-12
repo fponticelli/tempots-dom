@@ -5,8 +5,8 @@ import { type JSX } from '../jsx-runtime'
 
 export interface NotEmptyProps<T> {
   on: Signal<T>
-  whenEmpty?: JSX.DOMNode
-  display: JSX.DOMNode
+  whenEmpty?: () => JSX.DOMNode
+  display: () => JSX.DOMNode
 }
 
 function isEmpty (obj: Record<any, unknown>): boolean {

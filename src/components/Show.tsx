@@ -11,16 +11,16 @@ export type Condition<T> =
 
 export interface ShowProps<T> {
   when: Condition<T>
-  otherwise?: JSX.DOMNode
+  otherwise?: () => JSX.DOMNode
   children?: (value: Signal<NonNullable<T>>) => JSX.DOMNode
 }
 
 export function Show<T> ({ when, children, otherwise }: ShowProps<T>) {
-  return new OneOfImpl<{ T: NonNullable<T> } | { F: false }>(
-    when.map(v => (v != null ? { T: v } : { F: false })),
+  return new OneOfImpl<{ then: NonNullable<T> } | { otherwise: false }>(
+    when.map(v => (v != null ? { then: v } : { otherwise: false })),
     {
-      T: (v: Signal<NonNullable<T>>) => ((children && children(v)) || <></>),
-      F: (_: Signal<false>) => (otherwise || <></>)
+      then: (v: Signal<NonNullable<T>>) => ((children && children(v)) || <></>),
+      otherwise: otherwise || (() => <></>)
     }
   );
 }

@@ -214,6 +214,21 @@ export class Signal<T> {
     })
     return prop
   }
+
+  readonly equals = (other: Signal<T>, equality?: (a: T, b: T) => boolean): Signal<boolean> => {
+    return this.combine(other, (a, b) => {
+      if (equality != null) return equality(a, b)
+      return a === b
+    })
+  }
+
+  readonly isNull = (): Signal<boolean> => this.map(value => value == null)
+
+  readonly isNotNull = (): Signal<boolean> => this.map(value => value != null)
+
+  readonly isEmpty = (): Signal<boolean> => this.map(value => value == null || (Reflect.has(value, 'length') && Reflect.get(value, 'length') === 0))
+
+  readonly isNotEmpty = (): Signal<boolean> => this.map(value => value != null && (!Reflect.has(value, 'length') || Reflect.get(value, 'length') !== 0))
 }
 
 export class Prop<T> extends Signal<T> {
