@@ -101,6 +101,8 @@ export class RepeatImpl implements Renderable {
           if (separatorClears.length > 0) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             separatorClears.pop()!(true)
+          }
+          if (separatorProps.length > 0) {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             separatorProps.pop()!.clean()
           }
